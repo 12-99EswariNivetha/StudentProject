@@ -16,20 +16,18 @@ public class StudentDetails {
      */
     public static void addStudent() {
         int rollNo = StudentView.getRollNo();
-        String name=StudentView.getName();
-        int standard=StudentView.getStandard();
-        long phoneNo=StudentView.getPhoneNo();
-        String emailId=StudentView.getEmailId();
-        String Date=StudentView.getDate();
-        Student student = new Student(rollNo, name, standard, phoneNo,
-                emailId,Date);
+        String name = StudentView.getName();
+        int standard = StudentView.getStandard();
+        long phoneNo = StudentView.getPhoneNo();
+        String emailId = StudentView.getEmailId();
+        String Date = StudentView.getDate();
+        Student student = new Student(rollNo, name, standard, phoneNo, emailId, Date);
 
         studentController.addStudent(rollNo, student);
     }
 
     /**
-     * This method is to Display all Students from StudentView and sending request
-     * to controller
+     * This method is to Display all Students and sending request to controller
      * 
      * @return Nothing
      */
@@ -58,8 +56,8 @@ public class StudentDetails {
     }
 
     /**
-     * This method is to updateStudent by getting key from StudentView and sending
-     * request to controller
+     * This method is to updateStudent by getting key from StudentView and user can
+     * update the particular value by using switchcase.
      * 
      * @return Nothing
      */
@@ -83,6 +81,10 @@ public class StudentDetails {
         }
     }
 
+    /**
+     * This method is to updateStudentName by using rollNo and sending request to
+     * controller.
+     */
     private static void updateStudentName(int rollNo, String name) {
         Student student = new Student();
         student.setRollNo(rollNo);
@@ -90,6 +92,10 @@ public class StudentDetails {
         studentController.updateStudentDetails(rollNo, student);
     }
 
+    /**
+     * This method is to updateStudentStand by using rollNo and sending request to
+     * controller.
+     */
     private static void updateStudentStand(int rollNo, int stand) {
         Student student = new Student();
         student.setRollNo(rollNo);
@@ -97,6 +103,10 @@ public class StudentDetails {
         studentController.updateStudentDetails(rollNo, student);
     }
 
+    /**
+     * This method is to updateStudentPhoneNo by using rollNo and sending request to
+     * controller.
+     */
     private static void updateStudentPhoneNumber(int rollNo, long phoneNumber) {
         Student student = new Student();
         student.setRollNo(rollNo);
@@ -104,6 +114,10 @@ public class StudentDetails {
         studentController.updateStudentDetails(rollNo, student);
     }
 
+    /**
+     * This method is to updateStudentDob by using rollNo and sending request to
+     * controller.
+     */
     private static void updateStudentDoB(int rollNo, String dob) {
         Student student = new Student();
         student.setRollNo(rollNo);
@@ -111,12 +125,15 @@ public class StudentDetails {
         studentController.updateStudentDetails(rollNo, student);
     }
 
+    /**
+     * This method is to updateStudentEmailId by using rollNo and sending request to
+     * controller.
+     */
     private static void updateStudentEmailId(int rollNo, String emailId) {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setEmailId(emailId);
         studentController.updateStudentDetails(rollNo, student);
     }
-
 
 }

@@ -12,7 +12,9 @@ import com.student.view.StudentView;
  */
 public class StudentDetailsValidation {
     /**
-     * This method is to validate the PhoneNumber.
+     * This method is to validate the PhoneNumber if it is valid it is return to
+     * studentview.It accept only 10 digitNumber.If any other characters or morethan
+     * 10 Number given it call the method again
      * 
      * @param phoneNo one parameter is passed to get the phonenumber validation.
      * 
@@ -31,7 +33,9 @@ public class StudentDetailsValidation {
     }
 
     /**
-     * This method is to validate the PhoneNumber.
+     * This method is to validate the Name if it is valid it is return to
+     * studentview.It accept only Alphabets.If Integer or any special charachter
+     * given it call the method again.
      * 
      * @param name one parameter is passed to get the name validation.
      * 
@@ -50,7 +54,9 @@ public class StudentDetailsValidation {
     }
 
     /**
-     * This method is to  validate the rollNo.
+     * This method is to validate the rollNo if it is valid it is return to
+     * studentview.It accept only 3 digitNumber. If any other characters or morethan
+     * 3 number given it call the method again
      * 
      * @param rollNo one parameter is passed to get the rollNo validation.
      * 
@@ -69,7 +75,9 @@ public class StudentDetailsValidation {
     }
 
     /**
-     * This method is to validate the standard.
+     * This method is to validate the standard if it is valid it is return to
+     * studentview.It accept only integer. If any other characters or special
+     * character given it call the method again
      * 
      * @param standard one parameter is passed to get the standard validation.
      * 
@@ -88,7 +96,8 @@ public class StudentDetailsValidation {
     }
 
     /**
-     * This method is to validate the emailId.
+     * This method is to validate the emailId if it is valid by given pattern it is
+     * return to studentview or it will call the method again.
      * 
      * @param emailId one parameter is passed to get the emailId validation.
      * 
@@ -107,7 +116,8 @@ public class StudentDetailsValidation {
     }
 
     /**
-     * This method is to validate the date.
+     * This method is to validate the date if it is valid by given pattern it is
+     * return to studentview or it will call the method again.
      * 
      * @param date one parameter is passed to get the date validation.
      * 

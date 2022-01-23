@@ -7,9 +7,9 @@ import java.util.Map;
 import com.student.model.Student;
 
 /**
- * <h1>Student, Service Implementation!
- * <h1>StudentServiceImplementation implements StudentService and gives
- * definition to StudentService
+ * <h1>Student, Service Implementation! StudentServiceImplementation implements
+ * StudentService and gives definition to StudentService Created HashMap
+ * collection for storing details.
  */
 
 public class StudentServiceImplementation implements StudentService {
@@ -31,7 +31,6 @@ public class StudentServiceImplementation implements StudentService {
      * @param rollNo  first parameter is passed as key to add keyvalue to addStudent
      * @param student second parameter is passed as value to add values to
      *                addStudent
-     * @return Map<Integer, Student> This returns the STUDENTSLIST
      */
     @Override
     public void addStudent(int rollNo, Student student) {
@@ -48,18 +47,16 @@ public class StudentServiceImplementation implements StudentService {
      * This method is used to removeStudent details.
      * 
      * @param rollNo parameter is passed as key to remove Studentdetails
-     * @return Map<Integer, Student> This returns the value of given key which is
-     *         removed
      */
     @Override
-    public Map<Integer, Student> removeStudent(int rollNo) {
+    public void removeStudent(int rollNo) {
 
         if (STUDENTSLIST.containsKey(rollNo)) {
-            STUDENTSLIST.remove(rollNo);
+            System.out.println(STUDENTSLIST.remove(rollNo));
+            System.out.println("DeletedSuccesfully");
         } else {
             System.out.println("Record Not Found");
         }
-        return STUDENTSLIST;
     }
 
     /**
@@ -105,30 +102,41 @@ public class StudentServiceImplementation implements StudentService {
      */
     @Override
     public Student updateStudentDetails(int rollNo, Student students) {
-        Iterator<Integer> updateStudent = STUDENTSLIST.keySet().iterator();
+        boolean StudentIdFound = false;
+        Iterator<Integer> iterator = STUDENTSLIST.keySet().iterator();
 
-        while (updateStudent.hasNext()) {
-            Integer key = updateStudent.next();
+        while (iterator.hasNext()) {
+            Integer key = iterator.next();
             Student student = STUDENTSLIST.get(key);
 
             if (key == rollNo) {
                 if (students.getName() != null) {
                     student.setName(students.getName());
+                    StudentIdFound = true;
                     break;
                 } else if (students.getStandard() != 0) {
                     student.setStandard(students.getStandard());
+                    StudentIdFound = true;
                     break;
                 } else if (students.getPhonenumber() != 0) {
                     student.setPhonenumber(students.getPhonenumber());
+                    StudentIdFound = true;
                     break;
                 } else if (students.getEmailId() != null) {
                     student.setEmailId(students.getEmailId());
                     break;
                 } else if (students.getDate() != null) {
                     student.setDate(students.getDate());
+                    StudentIdFound = true;
                     break;
                 }
             }
+        }
+
+        if (!StudentIdFound) {
+            System.out.println("Record Not Found");
+        } else {
+            return students;
         }
         return students;
     }

@@ -5,8 +5,7 @@ import com.student.service.StudentService;
 import com.student.service.StudentServiceImplementation;
 import com.student.view.StudentView;
 /**
- * Controller sends response to service.
- * 
+ * This class get request from main and send response to StudentService.
  */
 public class StudentController {
     private StudentService service = new StudentServiceImplementation();
@@ -16,7 +15,7 @@ public class StudentController {
     }
 
     public void removeStudent(int rollNo) {
-        StudentView.showallStudents(service.removeStudent(rollNo));
+        service.removeStudent(rollNo);
     }
 
     public void getStudentDetails(int rollNo) {
@@ -24,7 +23,7 @@ public class StudentController {
     }
 
     public void updateStudentDetails(int rollNo, Student student) {
-        StudentView.showUpdate(service.updateStudentDetails(rollNo, student));
+        StudentView.showUpdateValue(service.updateStudentDetails(rollNo, student));
     }
 
     public void showAllStudents() {

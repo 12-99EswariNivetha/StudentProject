@@ -1,7 +1,5 @@
 package com.student.service;
 
-import java.util.Map;
-
 import com.student.model.Student;
 
 /**
@@ -24,7 +22,7 @@ public interface StudentService {
      *
      * @param rollNo parameter is passed as key to remove Studentdetails
      */
-    public Map<Integer, Student> removeStudent(int rollNo);
+    public void removeStudent(int rollNo);
 
     /**
      * This method is used to ShowAllStudent details
