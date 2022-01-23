@@ -4,7 +4,10 @@ import com.student.model.Student;
 import com.student.service.StudentService;
 import com.student.service.StudentServiceImplementation;
 import com.student.view.StudentView;
-
+/**
+ * Controller sends response to service.
+ * 
+ */
 public class StudentController {
     private StudentService service = new StudentServiceImplementation();
 
