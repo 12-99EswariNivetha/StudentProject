@@ -1,13 +1,19 @@
 package com.student.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.student.model.Student;
+import com.student.view.StudentView;
 
 /**
- * <h1>Student, Service Implementation! StudentServiceImplementation implements
+ * Service Implementation! StudentServiceImplementation implements
  * StudentService and gives definition to StudentService Created HashMap
  * collection for storing details.
  */
@@ -17,36 +23,24 @@ public class StudentServiceImplementation implements StudentService {
      * @param <K> the type of keys maintained by this map
      * @param <V> the type of mapped values
      * @see HashMap
-     * @see TreeMap
-     * @see Hashtable
-     * @see SortedMap
-     * @see Collection
-     * @see Set
      */
-    public static final Map<Integer, Student> STUDENTSLIST = new HashMap<>();
+    private static final Map<Integer, Student> STUDENTSLIST = new HashMap<>();
 
     /**
-     * This method is used to addStudent details.
-     * 
-     * @param rollNo  first parameter is passed as key to add keyvalue to addStudent
-     * @param student second parameter is passed as value to add values to
-     *                addStudent
+     * Its addStudent details.
      */
     @Override
     public void addStudent(int rollNo, Student student) {
-
+        
         if (STUDENTSLIST.containsKey(rollNo)) {
             System.out.println("The given Id already Exit");
-
         } else {
             STUDENTSLIST.put(rollNo, student);
         }
     }
 
     /**
-     * This method is used to removeStudent details.
-     * 
-     * @param rollNo parameter is passed as key to remove Studentdetails
+     * Its removeStudent details.
      */
     @Override
     public void removeStudent(int rollNo) {
@@ -60,25 +54,18 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * This method is used to ShowAllStudent details which display all
-     * StudentDetails
-     * 
-     * @return No return type
+     * Its ShowAllStudent details which display all StudentDetails
      */
     @Override
     public void showAllStudents() {
 
-        for (Map.Entry<Integer, Student> set : STUDENTSLIST.entrySet()) {
-            System.out.println(set);
+        for (Map.Entry<Integer, Student> studentEntry : STUDENTSLIST.entrySet()) {
+            System.out.println(studentEntry);
         }
     }
 
     /**
-     * This method is used to getStudent details which display StudentDetails by
-     * given keyvalue
-     * 
-     * @param rollNo parameter is passed as key to get Studentdetails
-     * @return No return type
+     * Its getStudent details which display StudentDetails by given keyvalue
      */
     @Override
     public void getStudentDetails(int rollNo) {
@@ -88,56 +75,135 @@ public class StudentServiceImplementation implements StudentService {
         } else {
             System.out.println("Record Not Found");
         }
-
     }
 
     /**
-     * This method is used to updateStudent details.
-     * 
-     * @param rollNo  parameter is passed as key to update Studentdetails
-     * @param student second parameter is passed as value to update values to
-     *                updateStudentDetails
-     * @return Map<Integer, Student> This returns the value of given key which is
-     *         updated
+     * Its updateStudent details.
      */
     @Override
-    public Student updateStudentDetails(int rollNo, Student students) {
-        boolean StudentIdFound = false;
-        Iterator<Integer> iterator = STUDENTSLIST.keySet().iterator();
+    public Student updateStudentDetails(Student student) {
+        int rollNo = student.getRollNo();
 
-        while (iterator.hasNext()) {
-            Integer key = iterator.next();
-            Student student = STUDENTSLIST.get(key);
+        if (STUDENTSLIST.containsKey(rollNo)) {
+            Student getStudent = STUDENTSLIST.get(rollNo);
 
-            if (key == rollNo) {
-                if (students.getName() != null) {
-                    student.setName(students.getName());
-                    StudentIdFound = true;
-                    break;
-                } else if (students.getStandard() != 0) {
-                    student.setStandard(students.getStandard());
-                    StudentIdFound = true;
-                    break;
-                } else if (students.getPhonenumber() != 0) {
-                    student.setPhonenumber(students.getPhonenumber());
-                    StudentIdFound = true;
-                    break;
-                } else if (students.getEmailId() != null) {
-                    student.setEmailId(students.getEmailId());
-                    break;
-                } else if (students.getDate() != null) {
-                    student.setDate(students.getDate());
-                    StudentIdFound = true;
-                    break;
-                }
+            if (student.getName() != null) {
+                getStudent.setName(student.getName());
+            } else if (student.getStandard() != 0) {
+                getStudent.setStandard(student.getStandard());
+            } else if (student.getPhonenumber() != 0) {
+                getStudent.setPhonenumber(student.getPhonenumber());
+            } else if (student.getEmailId() != null) {
+                getStudent.setEmailId(student.getEmailId());
+            } else if (student.getDate() != null) {
+                getStudent.setDate(student.getDate());
             }
-        }
-
-        if (!StudentIdFound) {
-            System.out.println("Record Not Found");
         } else {
-            return students;
+            System.out.println("Record Not Found");
         }
-        return students;
+        return student;
+    }
+
+    /**
+     * Its validate the PhoneNumber.
+     */
+    @Override
+    public long phoneNoValidation(String phoneNo) {
+        Pattern pattern = Pattern.compile("[0-9]{10}");
+        Matcher match = pattern.matcher(phoneNo);
+
+        if (match.find() && match.group().equals(phoneNo)) {
+            return Long.parseLong(phoneNo);
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid PhoneNo :");
+            return StudentView.getPhoneNo();
+        }
+    }
+
+    /**
+     * Its to validate the Name.
+     */
+    @Override
+    public String nameValidation(String name) {
+        Pattern pattern = Pattern.compile("[a-zA-Z\\s]*$");
+        Matcher match = pattern.matcher(name);
+
+        if (match.find() && match.group().equals(name)) {
+            return name;
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid Name :");
+            return StudentView.getName();
+        }
+    }
+
+    /**
+     * Its validate the rollNo.
+     */
+    @Override
+    public int rollNoValidation(String rollNo) {
+        Pattern pattern = Pattern.compile("[0-9]{3}");
+        Matcher match = pattern.matcher(rollNo);
+
+        if (match.find() && match.group().equals(rollNo)) {
+            return Integer.parseInt(rollNo);
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid RollNo :");
+            return StudentView.getRollNo();
+        }
+    }
+
+    /**
+     * Its validate the standard.
+     */
+    @Override
+    public int standardValidation(String stand) {
+        Pattern pattern = Pattern.compile("[1-12]{1,}");
+        Matcher match = pattern.matcher(stand);
+
+        if (match.find() && match.group().equals(stand)) {
+            return Integer.parseInt(stand);
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid Standard :");
+            return StudentView.getStandard();
+        }
+    }
+
+    /**
+     *  Its validate the emailId.
+     */
+    @Override
+    public String emailIdValidation(String emailId) {
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+        Matcher match = pattern.matcher(emailId);
+
+        if (match.find() && match.group().equals(emailId)) {
+            return emailId;
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid MailId :");
+            return StudentView.getEmailId();
+        }
+    }
+
+    /**
+     * Its validate the date.
+     */
+    @Override
+    public Date dateValidation(String date) {
+
+        try {
+            LocalDate localdate = LocalDate.parse(date);
+            LocalDate currentLocalDate = LocalDate.now();
+            ZoneId systemTimeZone = ZoneId.systemDefault();
+            ZonedDateTime zonedDateTime = currentLocalDate.atStartOfDay(systemTimeZone);
+
+            if (currentLocalDate.isAfter(localdate)) {  
+                return Date.from(zonedDateTime.toInstant());
+            }
+
+        } catch (Exception e) {
+            System.out.println("Not Valid \n Re-enter a valid Date :");
+            return StudentView.getDate();
+        }
+        return StudentView.getDate();
     }
 }

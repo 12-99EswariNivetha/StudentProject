@@ -1,5 +1,7 @@
 package com.student.service;
 
+import java.util.Date;
+
 import com.student.model.Student;
 
 /**
@@ -8,39 +10,59 @@ import com.student.model.Student;
 
 public interface StudentService {
     /**
-     * add the given Details
-     *
-     * @param rollNo  first parameter is passed as key to add keyvalue to addStudent
-     *                method.
-     * @param student second parameter is passed as value to add values to
-     *                addStudent method.
+     * Its add the given Details.
      */
     public void addStudent(int rollNo, Student student);
 
     /**
-     * remove the detail by using key
-     *
-     * @param rollNo parameter is passed as key to remove Studentdetails
+     * Its remove the detail by using key.
      */
     public void removeStudent(int rollNo);
 
     /**
-     * This method is used to ShowAllStudent details
+     * Its ShowAllStudent details.
      */
     public void showAllStudents();
 
     /**
-     * This method is used to getStudent details
+     * Its getStudent details by using key.
      */
     public void getStudentDetails(int rollNo);
 
     /**
-     * This method is used to updateStudent details
-     * 
-     * @param rollNo  parameter is passed as key to update Studentdetails
-     * @param student second parameter is passed as value to update values to
-     *                updateStudentDetails
+     * Its updateStudent details.
      */
-    public Student updateStudentDetails(int rollNo, Student student);
+    public Student updateStudentDetails(Student student);
+    
+    /**
+     * For validating rollNo
+     */
+    public  int rollNoValidation(String rollNo);
+    
+    /**
+     * For validating name
+     */
+    public  String nameValidation(String name);
+    
+    /**
+     * For validating standard
+     */
+    public  int standardValidation(String stand);
+    
+
+    /**
+     * For validating emailId
+     */
+    public  String emailIdValidation(String emailId);
+    
+    /**
+     * For validating date
+     */
+    public  Date dateValidation(String date);
+    
+    /**
+     * For validating phoneno
+     */
+    public  long phoneNoValidation(String phoneNo);
 
 }

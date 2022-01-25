@@ -1,12 +1,14 @@
 package com.student.main;
 
+import java.util.Date;
 import java.util.Scanner;
 
-import com.student.view.StudentDetails;
+import com.student.controller.StudentController;
+import com.student.model.Student;
+import com.student.view.StudentView;
 
 /**
  * <h1>StudentDetails!</h1>
- * <p>
  * 
  * @see java.util.scanner
  * @author EswariNivethaVU
@@ -16,14 +18,10 @@ import com.student.view.StudentDetails;
  */
 public class StudentMain {
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static StudentController studentController = new StudentController();
 
     /**
-     * This is the main method which makes use of addStudent,showAllStudents,
-     * removeStudentmethod,updateStudent Method
-     * 
-     * @param args Unused.
-     * 
-     * @return Nothing.
+     * It makes use of crud operation like add,delete,update and remove methods
      */
     public static void main(String[] args) {
         int choice;
@@ -33,23 +31,136 @@ public class StudentMain {
             choice = SCANNER.nextInt();
             switch (choice) {
             case 1:
-                StudentDetails.addStudent();
+                StudentMain.addStudent();
                 break;
             case 2:
-                StudentDetails.showAllStudents();
+                StudentMain.showAllStudents();
                 break;
             case 3:
-                StudentDetails.removeStudent();
+                StudentMain.removeStudent();
                 break;
             case 4:
-                StudentDetails.updateStudent();
+                StudentMain.updateStudent();
                 break;
             case 5:
-                StudentDetails.getStudentDetail();
+                StudentMain.getStudentDetail();
                 break;
             default:
                 System.exit(0);
             }
         } while (choice != 0);
     }
+
+    /**
+     * Its addStudent by getting values from view and sending request to controller.
+     */
+    private static void addStudent() {
+        int rollNo = StudentView.getRollNo();
+        String name = StudentView.getName();
+        int standard = StudentView.getStandard();
+        long phoneNo = StudentView.getPhoneNo();
+        String emailId = StudentView.getEmailId();
+        Date Date = StudentView.getDate();
+        Student student = new Student(rollNo, name, standard, phoneNo, emailId, Date);
+
+        studentController.addStudent(rollNo, student);
+    }
+
+    /**
+     * Its Display all Students and sending request to controller.
+     */
+    private static void showAllStudents() {
+        studentController.showAllStudents();
+    }
+
+    /**
+     * Its removeStudent by getting key from StudentView and sending request to
+     * controller.
+     */
+    private static void removeStudent() {
+        studentController.removeStudent(StudentView.getRollNo());
+    }
+
+    /**
+     * Its getStudent by getting key from StudentView and sending request to
+     * controller.
+     */
+    private static void getStudentDetail() {
+        studentController.getStudentDetails(StudentView.getRollNo());
+    }
+
+    /**
+     * Its updateStudent by getting key from StudentView and user can update the
+     * particular value by using switchcase.
+     */
+    private static void updateStudent() {
+        System.out.println("1.Student Name\n2.Standard\n3.PhoneNumber\n4.EmailId\n5.DoB\n");
+        int choice = SCANNER.nextInt();
+        switch (choice) {
+        case 1:
+            updateStudentName(StudentView.getRollNo(), StudentView.getName());
+            break;
+        case 2:
+            updateStudentStand(StudentView.getRollNo(), StudentView.getStandard());
+            break;
+        case 3:
+            updateStudentPhoneNumber(StudentView.getRollNo(), StudentView.getPhoneNo());
+            break;
+        case 4:
+            updateStudentEmailId(StudentView.getRollNo(), StudentView.getEmailId());
+        case 5:
+            updateStudentDoB(StudentView.getRollNo(), StudentView.getDate());
+        }
+    }
+
+    /**
+     * Its updateStudentName by using rollNo and sending request to controller.
+     */
+    private static void updateStudentName(int rollNo, String name) {
+        Student student = new Student();
+        student.setRollNo(rollNo);
+        student.setName(name);
+        studentController.updateStudentDetails(rollNo, student);
+    }
+
+    /**
+     * Its updateStudentStand by using rollNo and sending request to controller.
+     */
+    private static void updateStudentStand(int rollNo, int stand) {
+        Student student = new Student();
+        student.setRollNo(rollNo);
+        student.setStandard(stand);
+        studentController.updateStudentDetails(rollNo, student);
+    }
+
+    /**
+     * Its updateStudentPhoneNo by using rollNo and sending request to controller.
+     */
+    private static void updateStudentPhoneNumber(int rollNo, long phoneNumber) {
+        Student student = new Student();
+        student.setRollNo(rollNo);
+        student.setPhonenumber(phoneNumber);
+        studentController.updateStudentDetails(rollNo, student);
+    }
+
+    /**
+     * Its updateStudentDob by using rollNo and sending request to controller.
+     */
+    private static void updateStudentDoB(int rollNo, Date dob) {
+        Student student = new Student();
+        student.setRollNo(rollNo);
+        student.setDate(dob);
+        studentController.updateStudentDetails(rollNo, student);
+    }
+
+    /**
+     * Its updateStudentEmailId by using rollNo and sending request to controller.
+     */
+    private static void updateStudentEmailId(int rollNo, String emailId) {
+        Student student = new Student();
+        student.setRollNo(rollNo);
+        student.setEmailId(emailId);
+        studentController.updateStudentDetails(rollNo, student);
+    }
+
 }

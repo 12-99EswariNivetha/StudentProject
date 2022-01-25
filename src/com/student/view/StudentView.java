@@ -1,9 +1,9 @@
 package com.student.view;
 
+import java.util.Date;
 import java.util.Scanner;
 
-import com.student.model.Student;
-import com.student.service.StudentDetailsValidation;
+import com.student.controller.StudentController;
 
 /**
  * <h1>Student, View!</h1> The StudentView program implements an application
@@ -11,75 +11,56 @@ import com.student.service.StudentDetailsValidation;
  */
 public class StudentView {
     private static final Scanner SCANNER = new Scanner(System.in);
-
+    private static final StudentController STUDENTCONTROLLER = new StudentController();
+    
     /**
-     * This method is to getRollNo from user
-     * 
-     * @return int It returns the value of rollno only if its valid otherwise it
-     *         call StudentDetailsValidation.rollNoValidation method.
+     * Its getRollNo from user.
      */
     public static int getRollNo() {
         System.out.println("Enter the RollNo:");
-        return StudentDetailsValidation.rollNoValidation(SCANNER.nextLine());
+        return STUDENTCONTROLLER.rollNoValidation(SCANNER.nextLine());
+        
     }
 
     /**
-     * This method is to getName from user
-     * 
-     * @return String It returns the value of name only if its valid otherwise it
-     *         call StudentDetailsValidation.namevalidation method.
+     * Its getName from user.
      */
     public static String getName() {
         System.out.println("Enter the Name:");
-        return StudentDetailsValidation.nameValidation(SCANNER.nextLine());
+        return STUDENTCONTROLLER.nameValidation(SCANNER.nextLine());
     }
 
     /**
-     * This method is to getstandard from user
-     * 
-     * @return int It returns the value of Standard only if its valid otherwise it
-     *         call StudentDetailsValidation.standardValidation method.
+     * Its getstandard from user
      */
     public static int getStandard() {
         System.out.println("Enter the Standard:");
-        return StudentDetailsValidation.standardValidation(SCANNER.nextLine());
+        return STUDENTCONTROLLER.standardValidation(SCANNER.nextLine());
     }
 
     /**
-     * This method is to getPhoneNo from user
-     * 
-     * @return long It returns the value of phoneNo only if its valid otherwise it
-     *         call StudentDetailsValidation.phoneNoValidation method.
+     * Its getPhoneNo from user.
      */
     public static long getPhoneNo() {
         System.out.println("Enter the PhoneNumber:");
-        return StudentDetailsValidation.phoneNoValidation(SCANNER.nextLine());
+        return STUDENTCONTROLLER.phoneNoValidation(SCANNER.nextLine());
     }
 
     /**
-     * This method is to getemailId from user
-     * 
-     * @return String It returns the value of emailId only if its valid otherwise it
-     *         call StudentDetailsValidation.emailIdValidation method.
+     * Its getemailId from user
      */
     public static String getEmailId() {
         System.out.println("Enter the EmailId:");
-        return StudentDetailsValidation.emailIdValidation(SCANNER.nextLine());
+        return STUDENTCONTROLLER.emailIdValidation(SCANNER.nextLine());
     }
 
     /**
-     * This method is to getDate from user
-     * 
-     * @return String It returns the value of date only if its valid otherwise it
-     *         call StudentDetailsValidation.dateValidation method.
+     * Its getDate from user.
      */
-    public static String getDate() {
+    public static Date getDate() {
         System.out.println("Enter DoB(yyyy-mm-dd):");
-        return StudentDetailsValidation.dateValidation(SCANNER.nextLine());
+        return STUDENTCONTROLLER.dateValidation(SCANNER.nextLine());
     }
 
-    public static void showUpdateValue(Student student) {
-        System.out.println(student);
-    }
-
+    
 }

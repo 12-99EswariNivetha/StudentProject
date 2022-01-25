@@ -1,17 +1,19 @@
 package com.student.controller;
 
+import java.util.Date;
+
 import com.student.model.Student;
 import com.student.service.StudentService;
 import com.student.service.StudentServiceImplementation;
-import com.student.view.StudentView;
+
 /**
- * This class get request from main and send response to StudentService.
+ * Its get response and send request to service.
  */
 public class StudentController {
     private StudentService service = new StudentServiceImplementation();
 
     public void addStudent(int rollNo, Student student) {
-       service.addStudent(rollNo, student);
+        service.addStudent(rollNo, student);
     }
 
     public void removeStudent(int rollNo) {
@@ -23,10 +25,34 @@ public class StudentController {
     }
 
     public void updateStudentDetails(int rollNo, Student student) {
-        StudentView.showUpdateValue(service.updateStudentDetails(rollNo, student));
+        service.updateStudentDetails(student);
     }
 
     public void showAllStudents() {
         service.showAllStudents();
+    }
+
+    public long phoneNoValidation(String phoneNo) {
+        return service.phoneNoValidation(phoneNo);
+    }
+
+    public int rollNoValidation(String rollNo) {
+        return service.rollNoValidation(rollNo);
+    }
+
+    public String nameValidation(String name) {
+        return service.nameValidation(name);
+    }
+
+    public int standardValidation(String stand) {
+        return service.standardValidation(stand);
+    }
+
+    public String emailIdValidation(String emailId) {
+        return service.emailIdValidation(emailId);
+    }
+
+    public Date dateValidation(String date) {
+        return service.dateValidation(date);
     }
 }
