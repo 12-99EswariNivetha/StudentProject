@@ -30,13 +30,14 @@ public class StudentServiceImplementation implements StudentService {
      * Its addStudent details.
      */
     @Override
-    public void addStudent(int rollNo, Student student) {
+    public Student addStudent(int rollNo, Student student) {
         
         if (STUDENTSLIST.containsKey(rollNo)) {
             System.out.println("The given Id already Exit");
         } else {
             STUDENTSLIST.put(rollNo, student);
         }
+        return student;
     }
 
     /**
@@ -157,7 +158,7 @@ public class StudentServiceImplementation implements StudentService {
      */
     @Override
     public int standardValidation(String stand) {
-        Pattern pattern = Pattern.compile("[1-12]{1,}");
+        Pattern pattern = Pattern.compile("[0-9]{1,}");
         Matcher match = pattern.matcher(stand);
 
         if (match.find() && match.group().equals(stand)) {
@@ -194,7 +195,7 @@ public class StudentServiceImplementation implements StudentService {
             LocalDate localdate = LocalDate.parse(date);
             LocalDate currentLocalDate = LocalDate.now();
             ZoneId systemTimeZone = ZoneId.systemDefault();
-            ZonedDateTime zonedDateTime = currentLocalDate.atStartOfDay(systemTimeZone);
+            ZonedDateTime zonedDateTime =localdate.atStartOfDay().atZone(systemTimeZone);
 
             if (currentLocalDate.isAfter(localdate)) {  
                 return Date.from(zonedDateTime.toInstant());

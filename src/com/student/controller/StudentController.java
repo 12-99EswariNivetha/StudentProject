@@ -5,6 +5,7 @@ import java.util.Date;
 import com.student.model.Student;
 import com.student.service.StudentService;
 import com.student.service.StudentServiceImplementation;
+import com.student.view.StudentView;
 
 /**
  * Its get response and send request to service.
@@ -13,7 +14,7 @@ public class StudentController {
     private StudentService service = new StudentServiceImplementation();
 
     public void addStudent(int rollNo, Student student) {
-        service.addStudent(rollNo, student);
+        StudentView.showValue(service.addStudent(rollNo, student));
     }
 
     public void removeStudent(int rollNo) {
@@ -25,7 +26,7 @@ public class StudentController {
     }
 
     public void updateStudentDetails(int rollNo, Student student) {
-        service.updateStudentDetails(student);
+        StudentView.showValue(service.updateStudentDetails(student));
     }
 
     public void showAllStudents() {

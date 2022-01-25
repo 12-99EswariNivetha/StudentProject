@@ -21,7 +21,7 @@ public class StudentMain {
     private static StudentController studentController = new StudentController();
 
     /**
-     * It makes use of crud operation like add,delete,update and remove methods
+     * It makes use of crud operation like add, delete, update, get and remove methods
      */
     public static void main(String[] args) {
         int choice;

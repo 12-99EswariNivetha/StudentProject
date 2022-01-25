@@ -9,60 +9,27 @@ import com.student.model.Student;
  */
 
 public interface StudentService {
-    /**
-     * Its add the given Details.
-     */
-    public void addStudent(int rollNo, Student student);
 
-    /**
-     * Its remove the detail by using key.
-     */
+    public Student addStudent(int rollNo, Student student);
+
     public void removeStudent(int rollNo);
 
-    /**
-     * Its ShowAllStudent details.
-     */
     public void showAllStudents();
 
-    /**
-     * Its getStudent details by using key.
-     */
     public void getStudentDetails(int rollNo);
 
-    /**
-     * Its updateStudent details.
-     */
     public Student updateStudentDetails(Student student);
-    
-    /**
-     * For validating rollNo
-     */
-    public  int rollNoValidation(String rollNo);
-    
-    /**
-     * For validating name
-     */
-    public  String nameValidation(String name);
-    
-    /**
-     * For validating standard
-     */
-    public  int standardValidation(String stand);
-    
 
-    /**
-     * For validating emailId
-     */
-    public  String emailIdValidation(String emailId);
-    
-    /**
-     * For validating date
-     */
-    public  Date dateValidation(String date);
-    
-    /**
-     * For validating phoneno
-     */
-    public  long phoneNoValidation(String phoneNo);
+    public int rollNoValidation(String rollNo);
+
+    public String nameValidation(String name);
+
+    public int standardValidation(String stand);
+
+    public String emailIdValidation(String emailId);
+
+    public Date dateValidation(String date);
+
+    public long phoneNoValidation(String phoneNo);
 
 }

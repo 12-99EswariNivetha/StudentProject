@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import com.student.controller.StudentController;
+import com.student.model.Student;
 
 /**
  * <h1>Student, View!</h1> The StudentView program implements an application
@@ -62,5 +63,7 @@ public class StudentView {
         return STUDENTCONTROLLER.dateValidation(SCANNER.nextLine());
     }
 
-    
+    public static void showValue(Student student) {
+        System.out.println(student);
+    }
 }
