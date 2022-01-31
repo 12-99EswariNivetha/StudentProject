@@ -3,6 +3,7 @@ package com.student.controller;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 import com.student.service.StudentService;
 import com.student.service.StudentServiceImplementation;
@@ -14,23 +15,23 @@ import com.student.view.StudentView;
 public class StudentController {
     private StudentService service = new StudentServiceImplementation();
 
-    public void addStudent(int rollNo, Student student) throws SQLException {
+    public void addStudent(int rollNo, Student student) throws SQLException, RecordNotfoundException {
        service.addStudent(student);
     }
 
-    public void removeStudent(int rollNo) throws SQLException {
+    public void removeStudent(int rollNo) throws SQLException, RecordNotfoundException {
         service.removeStudent(rollNo);
     }
 
-    public void getStudentDetails(int rollNo) throws SQLException {
+    public void getStudentDetails(int rollNo) throws SQLException, RecordNotfoundException {
         service.getStudentDetails(rollNo);
     }
 
-    public void updateStudentDetails(int rollNo, Student student) throws SQLException {
+    public void updateStudentDetails(int rollNo, Student student) throws SQLException, RecordNotfoundException {
         StudentView.showValue(service.updateStudentDetails(student));
     }
 
-    public void showAllStudents() throws SQLException {
+    public void showAllStudents() throws SQLException, RecordNotfoundException {
         service.showAllStudents();
     }
 

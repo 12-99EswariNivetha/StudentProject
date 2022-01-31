@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 
 public class StudentDaoImpl {
@@ -57,8 +58,9 @@ public class StudentDaoImpl {
      * Its removeStudent details from database.
      * 
      * @throws SQLException
+     * @throws RecordNotfoundException 
      */
-    public void removeStudent(int rollno) throws SQLException {
+    public void removeStudent(int rollno) throws SQLException, RecordNotfoundException {
         Connection connection = getConnection();
         final String removeStudent = "UPDATE student SET isdeleted=? where rollno=?";
         
@@ -68,7 +70,7 @@ public class StudentDaoImpl {
             statement.setInt(2, rollno);
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Id couldn't delete");
+            throw new RecordNotfoundException("id not found");
         } finally {
             connection.close();
         }
@@ -78,8 +80,9 @@ public class StudentDaoImpl {
      * Its retrive all Student details from database.
      * 
      * @throws SQLException
+     * @throws RecordNotfoundException 
      */
-    public Map<Integer, Student> getAllStudentfromdb() throws SQLException {
+    public Map<Integer, Student> getAllStudentfromdb() throws SQLException, RecordNotfoundException {
         Connection connection = getConnection();
         final String getstudent = "Select * From student where isdeleted=false ";
         final Map<Integer, Student> Studentlist = new HashMap<Integer, Student>();
@@ -94,7 +97,7 @@ public class StudentDaoImpl {
                 Studentlist.put(student.getRollNo(), student);
             }
         } catch (SQLException e) {
-            System.out.println("No Records Found");
+            throw new RecordNotfoundException("id not found");
         } finally {
             connection.close();
         }
@@ -105,8 +108,9 @@ public class StudentDaoImpl {
      * Its update Studentdetails in database.
      * 
      * @throws SQLException
+     * @throws RecordNotfoundException 
      */
-    public void updateStudents(Student student) throws SQLException {
+    public void updateStudents(Student student) throws SQLException, RecordNotfoundException {
         Connection connection = getConnection();
         
         try {
@@ -140,7 +144,7 @@ public class StudentDaoImpl {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            System.out.println("No Records Found");
+            throw new RecordNotfoundException("id not found");
         } finally {
             connection.close();
         }
