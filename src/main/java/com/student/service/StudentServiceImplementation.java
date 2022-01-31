@@ -1,14 +1,14 @@
 package com.student.service;
 
+import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
 import com.student.view.StudentView;
 
@@ -24,30 +24,38 @@ public class StudentServiceImplementation implements StudentService {
      * @param <V> the type of mapped values
      * @see HashMap
      */
-    private static final Map<Integer, Student> STUDENTSLIST = new HashMap<>();
+    private static final Map<Integer, Student> STUDENTSLIST = new HashMap<Integer, Student>();
+    private static final StudentDaoImpl STUDENTDAO = new StudentDaoImpl();
 
     /**
      * Its addStudent details.
+     * @throws SQLException 
      */
-    @Override
-    public Student addStudent(int rollNo, Student student) {
-        
-        if (STUDENTSLIST.containsKey(rollNo)) {
-            System.out.println("The given Id already Exit");
-        } else {
-            STUDENTSLIST.put(rollNo, student);
+    public void addStudent(Student student) throws SQLException {
+
+        if (STUDENTSLIST.isEmpty()) {
+            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
         }
-        return student;
+        if (STUDENTSLIST.containsKey(student.getRollNo())) {
+            System.out.println("Id is Already Exit");
+        } else {
+            STUDENTDAO.addStudent(student);
+            STUDENTSLIST.put(student.getRollNo(), student);
+        }
     }
 
     /**
      * Its removeStudent details.
+     * @throws SQLException 
      */
-    @Override
-    public void removeStudent(int rollNo) {
-
+    public void removeStudent(int rollNo) throws SQLException {
+        
+        if (STUDENTSLIST.isEmpty()) {
+            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
+        }
         if (STUDENTSLIST.containsKey(rollNo)) {
-            System.out.println(STUDENTSLIST.remove(rollNo));
+            STUDENTSLIST.remove(rollNo);
+            STUDENTDAO.removeStudent(rollNo);
             System.out.println("DeletedSuccesfully");
         } else {
             System.out.println("Record Not Found");
@@ -56,37 +64,42 @@ public class StudentServiceImplementation implements StudentService {
 
     /**
      * Its ShowAllStudent details which display all StudentDetails
+     * @throws SQLException 
      */
-    @Override
-    public void showAllStudents() {
-
-        for (Map.Entry<Integer, Student> studentEntry : STUDENTSLIST.entrySet()) {
-            System.out.println(studentEntry);
-        }
+    public void showAllStudents() throws SQLException {
+        System.out.println(STUDENTDAO.getAllStudentfromdb());
     }
 
     /**
      * Its getStudent details which display StudentDetails by given keyvalue
+     * @throws SQLException 
      */
-    @Override
-    public void getStudentDetails(int rollNo) {
-
+    public void getStudentDetails(int rollNo) throws SQLException {
+        
+        if (STUDENTSLIST.isEmpty()) {
+            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
+        }
         if (STUDENTSLIST.containsKey(rollNo)) {
             System.out.println(STUDENTSLIST.get(rollNo));
         } else {
             System.out.println("Record Not Found");
         }
+
     }
 
     /**
      * Its updateStudent details.
+     * @throws SQLException 
      */
-    @Override
-    public Student updateStudentDetails(Student student) {
+    public Student updateStudentDetails(Student student) throws SQLException {
         int rollNo = student.getRollNo();
 
+        if (STUDENTSLIST.isEmpty()) {
+            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
+        }
         if (STUDENTSLIST.containsKey(rollNo)) {
             Student getStudent = STUDENTSLIST.get(rollNo);
+            STUDENTDAO.updateStudents(student);
 
             if (student.getName() != null) {
                 getStudent.setName(student.getName());
@@ -108,7 +121,6 @@ public class StudentServiceImplementation implements StudentService {
     /**
      * Its validate the PhoneNumber.
      */
-    @Override
     public long phoneNoValidation(String phoneNo) {
         Pattern pattern = Pattern.compile("[0-9]{10}");
         Matcher match = pattern.matcher(phoneNo);
@@ -124,7 +136,6 @@ public class StudentServiceImplementation implements StudentService {
     /**
      * Its to validate the Name.
      */
-    @Override
     public String nameValidation(String name) {
         Pattern pattern = Pattern.compile("[a-zA-Z\\s]*$");
         Matcher match = pattern.matcher(name);
@@ -140,7 +151,6 @@ public class StudentServiceImplementation implements StudentService {
     /**
      * Its validate the rollNo.
      */
-    @Override
     public int rollNoValidation(String rollNo) {
         Pattern pattern = Pattern.compile("[0-9]{3}");
         Matcher match = pattern.matcher(rollNo);
@@ -156,7 +166,6 @@ public class StudentServiceImplementation implements StudentService {
     /**
      * Its validate the standard.
      */
-    @Override
     public int standardValidation(String stand) {
         Pattern pattern = Pattern.compile("[0-9]{1,}");
         Matcher match = pattern.matcher(stand);
@@ -170,9 +179,8 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     *  Its validate the emailId.
+     * Its validate the emailId.
      */
-    @Override
     public String emailIdValidation(String emailId) {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
         Matcher match = pattern.matcher(emailId);
@@ -188,17 +196,14 @@ public class StudentServiceImplementation implements StudentService {
     /**
      * Its validate the date.
      */
-    @Override
     public Date dateValidation(String date) {
 
         try {
             LocalDate localdate = LocalDate.parse(date);
             LocalDate currentLocalDate = LocalDate.now();
-            ZoneId systemTimeZone = ZoneId.systemDefault();
-            ZonedDateTime zonedDateTime =localdate.atStartOfDay().atZone(systemTimeZone);
 
-            if (currentLocalDate.isAfter(localdate)) {  
-                return Date.from(zonedDateTime.toInstant());
+            if (currentLocalDate.plusDays(1).isAfter(localdate)) {
+                return Date.valueOf(localdate);
             }
 
         } catch (Exception e) {
@@ -206,5 +211,6 @@ public class StudentServiceImplementation implements StudentService {
             return StudentView.getDate();
         }
         return StudentView.getDate();
+
     }
 }

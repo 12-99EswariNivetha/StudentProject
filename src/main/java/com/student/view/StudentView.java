@@ -1,6 +1,7 @@
 package com.student.view;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.Scanner;
 
 import com.student.controller.StudentController;
