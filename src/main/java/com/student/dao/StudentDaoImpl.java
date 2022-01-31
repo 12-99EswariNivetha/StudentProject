@@ -32,7 +32,7 @@ public class StudentDaoImpl {
      */
     public void addStudent(Student student) throws SQLException {
         Connection connection = getConnection();
-        final String InsertStudent = "INSERT INTO student(rollno,name,standard,phoneno,emailid,dob) VALUES (?,?,?,?,?,?)";
+        final String InsertStudent = "INSERT INTO student(rollno,name,standard,phoneno,emailid,dob,isdeleted) VALUES (?,?,?,?,?,?,?)";
         
         try {
             PreparedStatement statement = connection.prepareStatement(InsertStudent);
@@ -42,6 +42,7 @@ public class StudentDaoImpl {
             statement.setLong(4, student.getPhonenumber());
             statement.setString(5, student.getEmailId());
             statement.setDate(6, student.getDate());
+            statement.setBoolean(7, false);
             statement.execute();
             System.out.println(statement);
         } catch (SQLException e) {
@@ -59,11 +60,12 @@ public class StudentDaoImpl {
      */
     public void removeStudent(int rollno) throws SQLException {
         Connection connection = getConnection();
-        final String removeStudent = "delete from student where rollno=?";
+        final String removeStudent = "UPDATE student SET isdeleted=? where rollno=?";
         
         try {
             PreparedStatement statement = connection.prepareStatement(removeStudent);
-            statement.setInt(1, rollno);
+            statement.setBoolean(1, true);
+            statement.setInt(2, rollno);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Id couldn't delete");
@@ -79,7 +81,7 @@ public class StudentDaoImpl {
      */
     public Map<Integer, Student> getAllStudentfromdb() throws SQLException {
         Connection connection = getConnection();
-        final String getstudent = "Select * From student";
+        final String getstudent = "Select * From student where isdeleted=false ";
         final Map<Integer, Student> Studentlist = new HashMap<Integer, Student>();
         
         try {

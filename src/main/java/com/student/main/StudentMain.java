@@ -1,6 +1,7 @@
 package com.student.main;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.student.controller.StudentController;
@@ -22,8 +23,9 @@ public class StudentMain {
 
     /**
      * It makes use of crud operation like add, delete, update, get and remove methods
+     * @throws SQLException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         int choice;
 
         do {
@@ -53,8 +55,9 @@ public class StudentMain {
 
     /**
      * Its addStudent by getting values from view and sending request to controller.
+     * @throws SQLException 
      */
-    private static void addStudent() {
+    private static void addStudent() throws SQLException {
         int rollNo = StudentView.getRollNo();
         String name = StudentView.getName();
         int standard = StudentView.getStandard();
@@ -68,32 +71,36 @@ public class StudentMain {
 
     /**
      * Its Display all Students and sending request to controller.
+     * @throws SQLException 
      */
-    private static void showAllStudents() {
+    private static void showAllStudents() throws SQLException {
         studentController.showAllStudents();
     }
 
     /**
      * Its removeStudent by getting key from StudentView and sending request to
      * controller.
+     * @throws SQLException 
      */
-    private static void removeStudent() {
+    private static void removeStudent() throws SQLException {
         studentController.removeStudent(StudentView.getRollNo());
     }
 
     /**
      * Its getStudent by getting key from StudentView and sending request to
      * controller.
+     * @throws SQLException 
      */
-    private static void getStudentDetail() {
+    private static void getStudentDetail() throws SQLException {
         studentController.getStudentDetails(StudentView.getRollNo());
     }
 
     /**
      * Its updateStudent by getting key from StudentView and user can update the
      * particular value by using switchcase.
+     * @throws SQLException 
      */
-    private static void updateStudent() {
+    private static void updateStudent() throws SQLException {
         System.out.println("1.Student Name\n2.Standard\n3.PhoneNumber\n4.EmailId\n5.DoB\n");
         int choice = SCANNER.nextInt();
         switch (choice) {
@@ -115,8 +122,9 @@ public class StudentMain {
 
     /**
      * Its updateStudentName by using rollNo and sending request to controller.
+     * @throws SQLException 
      */
-    private static void updateStudentName(int rollNo, String name) {
+    private static void updateStudentName(int rollNo, String name) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setName(name);
@@ -125,8 +133,9 @@ public class StudentMain {
 
     /**
      * Its updateStudentStand by using rollNo and sending request to controller.
+     * @throws SQLException 
      */
-    private static void updateStudentStand(int rollNo, int stand) {
+    private static void updateStudentStand(int rollNo, int stand) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setStandard(stand);
@@ -135,8 +144,9 @@ public class StudentMain {
 
     /**
      * Its updateStudentPhoneNo by using rollNo and sending request to controller.
+     * @throws SQLException 
      */
-    private static void updateStudentPhoneNumber(int rollNo, long phoneNumber) {
+    private static void updateStudentPhoneNumber(int rollNo, long phoneNumber) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setPhonenumber(phoneNumber);
@@ -145,8 +155,9 @@ public class StudentMain {
 
     /**
      * Its updateStudentDob by using rollNo and sending request to controller.
+     * @throws SQLException 
      */
-    private static void updateStudentDoB(int rollNo, Date dob) {
+    private static void updateStudentDoB(int rollNo, Date dob) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setDate(dob);
@@ -155,8 +166,9 @@ public class StudentMain {
 
     /**
      * Its updateStudentEmailId by using rollNo and sending request to controller.
+     * @throws SQLException 
      */
-    private static void updateStudentEmailId(int rollNo, String emailId) {
+    private static void updateStudentEmailId(int rollNo, String emailId) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setEmailId(emailId);
