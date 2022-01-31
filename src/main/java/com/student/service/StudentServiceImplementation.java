@@ -32,9 +32,9 @@ public class StudentServiceImplementation implements StudentService {
      * Its addStudent details.
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public void addStudent(Student student) throws SQLException, RecordNotfoundException {
+    public void addStudent(Student student) throws SQLException {
 
         if (STUDENTSLIST.isEmpty()) {
             STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
@@ -51,9 +51,9 @@ public class StudentServiceImplementation implements StudentService {
      * Its removeStudent details.
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public void removeStudent(int rollNo) throws SQLException, RecordNotfoundException {
+    public void removeStudent(int rollNo) throws SQLException {
 
         if (STUDENTSLIST.isEmpty()) {
             STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
@@ -75,9 +75,9 @@ public class StudentServiceImplementation implements StudentService {
      * Its ShowAllStudent details which display all StudentDetails
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public void showAllStudents() throws SQLException, RecordNotfoundException {
+    public void showAllStudents() throws SQLException {
         System.out.println(STUDENTDAO.getAllStudentfromdb());
     }
 
@@ -85,9 +85,9 @@ public class StudentServiceImplementation implements StudentService {
      * Its getStudent details which display StudentDetails by given keyvalue
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public void getStudentDetails(int rollNo) throws SQLException, RecordNotfoundException {
+    public void getStudentDetails(int rollNo) throws SQLException {
 
         if (STUDENTSLIST.isEmpty()) {
             STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
@@ -95,23 +95,21 @@ public class StudentServiceImplementation implements StudentService {
         if (STUDENTSLIST.containsKey(rollNo)) {
             System.out.println(STUDENTSLIST.get(rollNo));
         } else {
-            System.out.println("id not found");
             try {
                 throw new RecordNotfoundException("Id not found");
             } catch (RecordNotfoundException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     /**
      * Its updateStudent details.
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public Student updateStudentDetails(Student student) throws SQLException, RecordNotfoundException {
+    public Student updateStudentDetails(Student student) throws SQLException {
         int rollNo = student.getRollNo();
 
         if (STUDENTSLIST.isEmpty()) {

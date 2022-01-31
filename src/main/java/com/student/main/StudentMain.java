@@ -27,7 +27,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    public static void main(String[] args) throws SQLException, RecordNotfoundException {
+    public static void main(String[] args) throws SQLException {
         int choice;
 
         do {
@@ -60,7 +60,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void addStudent() throws SQLException, RecordNotfoundException {
+    private static void addStudent() throws SQLException {
         int rollNo = StudentView.getRollNo();
         String name = StudentView.getName();
         int standard = StudentView.getStandard();
@@ -77,7 +77,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void showAllStudents() throws SQLException, RecordNotfoundException {
+    private static void showAllStudents() throws SQLException {
         studentController.showAllStudents();
     }
 
@@ -87,7 +87,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void removeStudent() throws SQLException, RecordNotfoundException {
+    private static void removeStudent() throws SQLException {
         studentController.removeStudent(StudentView.getRollNo());
     }
 
@@ -97,7 +97,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void getStudentDetail() throws SQLException, RecordNotfoundException {
+    private static void getStudentDetail() throws SQLException {
         studentController.getStudentDetails(StudentView.getRollNo());
     }
 
@@ -107,7 +107,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void updateStudent() throws SQLException, RecordNotfoundException {
+    private static void updateStudent() throws SQLException {
         System.out.println("1.Student Name\n2.Standard\n3.PhoneNumber\n4.EmailId\n5.DoB\n");
         int choice = SCANNER.nextInt();
         switch (choice) {
@@ -132,7 +132,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void updateStudentName(int rollNo, String name) throws SQLException, RecordNotfoundException {
+    private static void updateStudentName(int rollNo, String name) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setName(name);
@@ -144,7 +144,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void updateStudentStand(int rollNo, int stand) throws SQLException, RecordNotfoundException {
+    private static void updateStudentStand(int rollNo, int stand) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setStandard(stand);
@@ -156,7 +156,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void updateStudentPhoneNumber(int rollNo, long phoneNumber) throws SQLException, RecordNotfoundException {
+    private static void updateStudentPhoneNumber(int rollNo, long phoneNumber) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setPhonenumber(phoneNumber);
@@ -168,7 +168,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void updateStudentDoB(int rollNo, Date dob) throws SQLException, RecordNotfoundException {
+    private static void updateStudentDoB(int rollNo, Date dob) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setDate(dob);
@@ -180,7 +180,7 @@ public class StudentMain {
      * @throws SQLException 
      * @throws RecordNotfoundException 
      */
-    private static void updateStudentEmailId(int rollNo, String emailId) throws SQLException, RecordNotfoundException {
+    private static void updateStudentEmailId(int rollNo, String emailId) throws SQLException {
         Student student = new Student();
         student.setRollNo(rollNo);
         student.setEmailId(emailId);

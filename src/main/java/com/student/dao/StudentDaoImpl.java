@@ -15,7 +15,7 @@ public class StudentDaoImpl {
 
     protected Connection getConnection() throws SQLException {
         Connection connection = null;
-        
+
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studentdetails", "postgres",
@@ -34,7 +34,7 @@ public class StudentDaoImpl {
     public void addStudent(Student student) throws SQLException {
         Connection connection = getConnection();
         final String InsertStudent = "INSERT INTO student(rollno,name,standard,phoneno,emailid,dob,isdeleted) VALUES (?,?,?,?,?,?,?)";
-        
+
         try {
             PreparedStatement statement = connection.prepareStatement(InsertStudent);
             statement.setInt(1, student.getRollNo());
@@ -51,26 +51,25 @@ public class StudentDaoImpl {
         } finally {
             connection.close();
         }
-
     }
 
     /**
      * Its removeStudent details from database.
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public void removeStudent(int rollno) throws SQLException, RecordNotfoundException {
+    public void removeStudent(int rollno) throws SQLException {
         Connection connection = getConnection();
         final String removeStudent = "UPDATE student SET isdeleted=? where rollno=?";
-        
+
         try {
             PreparedStatement statement = connection.prepareStatement(removeStudent);
             statement.setBoolean(1, true);
             statement.setInt(2, rollno);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RecordNotfoundException("id not found");
+            System.out.println("Id not found");
         } finally {
             connection.close();
         }
@@ -80,13 +79,13 @@ public class StudentDaoImpl {
      * Its retrive all Student details from database.
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public Map<Integer, Student> getAllStudentfromdb() throws SQLException, RecordNotfoundException {
+    public Map<Integer, Student> getAllStudentfromdb() throws SQLException {
         Connection connection = getConnection();
         final String getstudent = "Select * From student where isdeleted=false ";
         final Map<Integer, Student> Studentlist = new HashMap<Integer, Student>();
-        
+
         try {
             PreparedStatement statement = connection.prepareStatement(getstudent);
             ResultSet rst = statement.executeQuery();
@@ -97,7 +96,7 @@ public class StudentDaoImpl {
                 Studentlist.put(student.getRollNo(), student);
             }
         } catch (SQLException e) {
-            throw new RecordNotfoundException("id not found");
+            System.out.println("Id not found");
         } finally {
             connection.close();
         }
@@ -108,11 +107,11 @@ public class StudentDaoImpl {
      * Its update Studentdetails in database.
      * 
      * @throws SQLException
-     * @throws RecordNotfoundException 
+     * @throws RecordNotfoundException
      */
-    public void updateStudents(Student student) throws SQLException, RecordNotfoundException {
+    public void updateStudents(Student student) throws SQLException {
         Connection connection = getConnection();
-        
+
         try {
             if (student.getName() != null) {
                 PreparedStatement statement = connection.prepareStatement("UPDATE student SET name=? where rollno=?");
@@ -144,7 +143,7 @@ public class StudentDaoImpl {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RecordNotfoundException("id not found");
+            System.out.println("Id not found");
         } finally {
             connection.close();
         }

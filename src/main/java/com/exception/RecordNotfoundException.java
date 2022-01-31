@@ -1,5 +1,6 @@
 package com.exception;
 
+@SuppressWarnings("serial")
 public class RecordNotfoundException extends Exception {
 
     public RecordNotfoundException() {
