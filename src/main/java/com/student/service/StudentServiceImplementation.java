@@ -1,15 +1,12 @@
 package com.student.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.exception.RecordNotfoundException;
-import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
 import com.student.view.StudentView;
 
@@ -26,98 +23,62 @@ public class StudentServiceImplementation implements StudentService {
      * @see HashMap
      */
     private static final Map<Integer, Student> STUDENTSLIST = new HashMap<Integer, Student>();
-    private static final StudentDaoImpl STUDENTDAO = new StudentDaoImpl();
 
     /**
      * Its addStudent details.
-     * 
-     * @throws SQLException
-     * @throws RecordNotfoundException
      */
-    public void addStudent(Student student) throws SQLException {
+    public void addStudent(Student student) {
 
-        if (STUDENTSLIST.isEmpty()) {
-            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
-        }
         if (STUDENTSLIST.containsKey(student.getRollNo())) {
             System.out.println("Id is Already Exit");
         } else {
-            STUDENTDAO.addStudent(student);
             STUDENTSLIST.put(student.getRollNo(), student);
         }
     }
 
     /**
      * Its removeStudent details.
-     * 
-     * @throws SQLException
-     * @throws RecordNotfoundException
      */
-    public void removeStudent(int rollNo) throws SQLException {
+    public void removeStudent(int rollNo) {
 
-        if (STUDENTSLIST.isEmpty()) {
-            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
-        }
         if (STUDENTSLIST.containsKey(rollNo)) {
             STUDENTSLIST.remove(rollNo);
-            STUDENTDAO.removeStudent(rollNo);
             System.out.println("DeletedSuccesfully");
         } else {
-            try {
-                throw new RecordNotfoundException("Id not found");
-            } catch (RecordNotfoundException e) {
-                e.printStackTrace();
-            }
+            System.out.println("Record Not Found");
         }
     }
 
     /**
      * Its ShowAllStudent details which display all StudentDetails
-     * 
-     * @throws SQLException
-     * @throws RecordNotfoundException
      */
-    public void showAllStudents() throws SQLException {
-        System.out.println(STUDENTDAO.getAllStudentfromdb());
+    public void showAllStudents() {
+
+        for (Map.Entry<Integer, Student> show : STUDENTSLIST.entrySet()) {
+            System.out.println(show);
+        }
     }
 
     /**
      * Its getStudent details which display StudentDetails by given keyvalue
-     * 
-     * @throws SQLException
-     * @throws RecordNotfoundException
      */
-    public void getStudentDetails(int rollNo) throws SQLException {
+    public void getStudentDetails(int rollNo) {
 
-        if (STUDENTSLIST.isEmpty()) {
-            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
-        }
         if (STUDENTSLIST.containsKey(rollNo)) {
             System.out.println(STUDENTSLIST.get(rollNo));
         } else {
-            try {
-                throw new RecordNotfoundException("Id not found");
-            } catch (RecordNotfoundException e) {
-                e.printStackTrace();
-            }
+            System.out.println("Record Not Found");
         }
     }
 
     /**
      * Its updateStudent details.
-     * 
-     * @throws SQLException
-     * @throws RecordNotfoundException
      */
-    public Student updateStudentDetails(Student student) throws SQLException {
+    public Student updateStudentDetails(Student student) {
         int rollNo = student.getRollNo();
 
-        if (STUDENTSLIST.isEmpty()) {
-            STUDENTSLIST.putAll(STUDENTDAO.getAllStudentfromdb());
-        }
         if (STUDENTSLIST.containsKey(rollNo)) {
             Student getStudent = STUDENTSLIST.get(rollNo);
-            STUDENTDAO.updateStudents(student);
 
             if (student.getName() != null) {
                 getStudent.setName(student.getName());
@@ -131,17 +92,33 @@ public class StudentServiceImplementation implements StudentService {
                 getStudent.setDate(student.getDate());
             }
         } else {
-            try {
-                throw new RecordNotfoundException("Id not found");
-            } catch (RecordNotfoundException e) {
-                e.printStackTrace();
+            System.out.println("Record Not Found");
+        }
+        return student;
+    }
+
+    public Student updateAllStudentDetails(Student student) {
+        int rollNo = student.getRollNo();
+
+        if (STUDENTSLIST.containsKey(rollNo)) {
+            Student getStudent = STUDENTSLIST.get(rollNo);
+
+            if (student.getName() != null && student.getStandard() != 0 && student.getPhonenumber() != 0
+                    && student.getEmailId() != null && student.getDate() != null) {
+                getStudent.setName(student.getName());
+                getStudent.setStandard(student.getStandard());
+                getStudent.setPhonenumber(student.getPhonenumber());
+                getStudent.setEmailId(student.getEmailId());
+                getStudent.setDate(student.getDate());
+            } else {
+                System.out.println("Record Not Found");
             }
         }
         return student;
     }
 
     /**
-     * Its validate the PhoneNumber.
+     * It validate the PhoneNumber.
      */
     public long phoneNoValidation(String phoneNo) {
         Pattern pattern = Pattern.compile("[0-9]{10}");
@@ -156,7 +133,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its to validate the Name.
+     * It validate the Name.
      */
     public String nameValidation(String name) {
         Pattern pattern = Pattern.compile("[a-zA-Z\\s]*$");

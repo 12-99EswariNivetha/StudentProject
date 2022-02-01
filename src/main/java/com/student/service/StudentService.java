@@ -1,8 +1,5 @@
 package com.student.service;
 
-import java.sql.Date;
-import java.sql.SQLException;
-
 import com.student.model.Student;
 
 /**
@@ -11,26 +8,16 @@ import com.student.model.Student;
 
 public interface StudentService {
 
-    public void addStudent(Student student) throws SQLException;
+    void addStudent(Student student);
 
-    public void removeStudent(int rollNo) throws SQLException;
+    void removeStudent(int rollNo);
 
-    public void showAllStudents() throws SQLException;
+    void showAllStudents();
 
-    public void getStudentDetails(int rollNo) throws SQLException;
+    void getStudentDetails(int rollNo);
 
-    public Student updateStudentDetails(Student student) throws SQLException;
-
-    public int rollNoValidation(String rollNo);
-
-    public String nameValidation(String name);
-
-    public int standardValidation(String stand);
-
-    public String emailIdValidation(String emailId);
-
-    public Date dateValidation(String date);
-
-    public long phoneNoValidation(String phoneNo);
+    Student updateStudentDetails(Student student);
+    
+    Student updateAllStudentDetails(Student student);
 
 }
