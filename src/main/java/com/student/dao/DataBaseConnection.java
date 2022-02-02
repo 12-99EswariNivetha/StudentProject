@@ -8,15 +8,14 @@ public class DataBaseConnection {
     /**
      * It implement Database Connection
      */
-     Connection getConnection() throws SQLException {
+    Connection getConnection() {
         Connection connection = null;
 
         try {
-            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studentdetails", "postgres",
                     "root");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error");
+        } catch (SQLException e) {
+            System.out.println("Connection Error");
         }
         return connection;
     }

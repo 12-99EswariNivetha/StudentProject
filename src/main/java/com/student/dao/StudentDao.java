@@ -13,5 +13,7 @@ public interface StudentDao {
     Map<Integer, Student> getAllStudentsfromdb();
 
     void updateStudents(Student student);
+    
+    Student selectStudent(int rollno);
 
 }

@@ -24,10 +24,8 @@ public class StudentMain {
     /**
      * It makes use of crud operation like add, delete, update, get and remove
      * methods
-     * 
-     * @throws RecordNotfoundException
      */
-    public static void main(String[] args) throws RecordNotfoundException {
+    public static void main(String[] args) {
         int choice;
 
         do {
@@ -65,6 +63,7 @@ public class StudentMain {
         long phoneNo = StudentView.getPhoneNo();
         String emailId = StudentView.getEmailId();
         Date Date = StudentView.getDate();
+
         Student student = new Student(rollNo, name, standard, phoneNo, emailId, Date);
 
         studentController.addStudent(rollNo, student);
@@ -80,56 +79,65 @@ public class StudentMain {
     /**
      * Its removeStudent by getting key from StudentView and sending request to
      * controller.
-     * 
-     * @throws RecordNotfoundException
      */
-    private static void removeStudent() throws RecordNotfoundException {
-        studentController.removeStudent(StudentView.getRollNo());
+    private static void removeStudent() {
+        try {
+            studentController.removeStudent(StudentView.getRollNo());
+        } catch (RecordNotfoundException e) {
+            System.out.println(e);
+        }
     }
 
     /**
      * Its getStudent by getting key from StudentView and sending request to
      * controller.
-     * 
      */
     private static void getStudentDetail() {
-        studentController.getStudentDetails(StudentView.getRollNo());
+        try {
+            studentController.getStudentDetails(StudentView.getRollNo());
+        } catch (RecordNotfoundException e) {
+            System.out.println(e);
+        }
     }
 
     /**
      * It updateStudents detail.
      */
     private static void updateStudents() {
-        Student student = new Student();
+        try {
+            Student student = new Student();
 
-        student.setRollNo(StudentView.getRollNo());
-        System.out.println("Do you want to change your name?");
+            student.setRollNo(StudentView.getRollNo());
+            System.out.println("Do you want to change your name?");
 
-        if (SCANNER.next().equals("yes")) {
-            student.setName(StudentView.getName());
+            if (SCANNER.next().equals("yes")) {
+                student.setName(StudentView.getName());
+            }
+            System.out.println("Do you want to change your standard?");
+
+            if (SCANNER.next().equals("yes")) {
+                student.setStandard(StudentView.getStandard());
+            }
+            System.out.println("Do you want to change your phoneNo?");
+
+            if (SCANNER.next().equals("yes")) {
+                student.setPhonenumber(StudentView.getPhoneNo());
+            }
+            System.out.println("Do you want to change your emailid?");
+
+            if (SCANNER.next().equals("yes")) {
+                student.setEmailId(StudentView.getEmailId());
+            }
+            System.out.println("Do you want to change your dob?");
+
+            if (SCANNER.next().equals("yes")) {
+                student.setDate(StudentView.getDate());
+            }
+
+            studentController.updateStudentDetails(student.getRollNo(), student);
+        } catch (RecordNotfoundException e) {
+            System.out.println(e);
         }
-        System.out.println("Do you want to change your standard?");
-
-        if (SCANNER.next().equals("yes")) {
-            student.setStandard(StudentView.getStandard());
-        }
-        System.out.println("Do you want to change your phoneNo?");
-
-        if (SCANNER.next().equals("yes")) {
-            student.setPhonenumber(StudentView.getPhoneNo());
-        }
-        System.out.println("Do you want to change your emailid?");
-
-        if (SCANNER.next().equals("yes")) {
-            student.setEmailId(StudentView.getEmailId());
-        }
-        System.out.println("Do you want to change your dob?");
-
-        if (SCANNER.next().equals("yes")) {
-            student.setDate(StudentView.getDate());
-        }
-
-        studentController.updateStudentDetails(student.getRollNo(), student);
     }
 
 }

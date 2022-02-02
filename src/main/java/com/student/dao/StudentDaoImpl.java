@@ -1,13 +1,13 @@
 package com.student.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.student.model.Student;
 
 public class StudentDaoImpl implements StudentDao {
@@ -17,7 +17,7 @@ public class StudentDaoImpl implements StudentDao {
      * It addStudent details to database.
      */
     public void addStudent(Student student) {
-        final String InsertStudent = "INSERT INTO student(rollno,name,standard,phoneno,emailid,dob,isdeleted) VALUES (?,?,?,?,?,?,?)";
+        final String InsertStudent = "INSERT INTO student(rollno, name, standard, phoneno, emailid, dob, isdeleted) VALUES (?,?,?,?,?,?,?)";
 
         try (final Connection connection = DBCONNECTION.getConnection();
                 final PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
@@ -28,6 +28,7 @@ public class StudentDaoImpl implements StudentDao {
             statement.setString(5, student.getEmailId());
             statement.setDate(6, student.getDate());
             statement.setBoolean(7, false);
+            
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Values doesnot inserted");
@@ -38,7 +39,7 @@ public class StudentDaoImpl implements StudentDao {
      * It removeStudent details from database.
      */
     public void removeStudent(int rollno) {
-        final String removeStudent = "UPDATE student SET isdeleted=? where rollno=?";
+        final String removeStudent = "UPDATE student SET isdeleted = ? where rollno = ?";
 
         try (final Connection connection = DBCONNECTION.getConnection();
                 final PreparedStatement statement = connection.prepareStatement(removeStudent);) {
@@ -54,8 +55,9 @@ public class StudentDaoImpl implements StudentDao {
      * It retrive all Student details from database.
      */
     public Map<Integer, Student> getAllStudentsfromdb() {
-        final String getstudent = "Select * From student where isdeleted=false ";
+        final String getstudent = "Select * From student where isdeleted = false ";
         final Map<Integer, Student> Studentlist = new HashMap<Integer, Student>();
+
         try (final Connection connection = DBCONNECTION.getConnection();
                 final PreparedStatement statement = connection.prepareStatement(getstudent);
                 ResultSet rst = statement.executeQuery();) {
@@ -80,34 +82,34 @@ public class StudentDaoImpl implements StudentDao {
             String updateStudent = "update student set";
             boolean update = false;
 
-                if (student.getName()!=null) {
-                    updateStudent += " name = '" + student.getName() + "'";
-                    update = true;
-                }
+            if (student.getName() != null) {
+                updateStudent += " name = '" + student.getName() + "'";
+                update = true;
+            }
 
-                if (student.getStandard() != 0) {
-                    if (update) {
-                        updateStudent += ",";
-                    }
-                    updateStudent += " standard = " + student.getStandard();
-                    update = true;
+            if (student.getStandard() != 0) {
+                if (update) {
+                    updateStudent += ",";
                 }
+                updateStudent += " standard = " + student.getStandard();
+                update = true;
+            }
 
-                if (student.getEmailId()!=null) {
-                    if (update) {
-                        updateStudent += ",";
-                    }
-                    updateStudent += " emailid = '" + student.getEmailId() + "'";
-                    update = true;
+            if (student.getEmailId() != null) {
+                if (update) {
+                    updateStudent += ",";
                 }
+                updateStudent += " emailid = '" + student.getEmailId() + "'";
+                update = true;
+            }
 
-                if (student.getPhonenumber() != 0) {
-                    if (update) {
-                        updateStudent += ",";
-                    }
-                    updateStudent += " phoneno = " + student.getPhonenumber();
-                    update = true;
+            if (student.getPhonenumber() != 0) {
+                if (update) {
+                    updateStudent += ",";
                 }
+                updateStudent += " phoneno = " + student.getPhonenumber();
+                update = true;
+            }
 
             if (student.getDate() != null) {
                 updateStudent += " dob = '" + student.getDate() + "'";
@@ -119,5 +121,34 @@ public class StudentDaoImpl implements StudentDao {
         } catch (SQLException e) {
             System.out.println("Id not found");
         }
+    }
+
+    /**
+     * It select Studentdetails in database.
+     */
+    public Student selectStudent(int rollno) {
+        Student student = null;
+        final String getstudent = "Select * From student where rollno=?";
+
+        try (final Connection connection = DBCONNECTION.getConnection();
+                final PreparedStatement statement = connection.prepareStatement(getstudent);) {
+            statement.setInt(1, rollno);
+            ResultSet rst = statement.executeQuery();
+            
+            while (rst.next()) {
+                String name = rst.getString(2);
+                int standard = rst.getInt(3);
+                String emailid = rst.getString(4);
+                long phoneno = rst.getLong(5);
+                Date dob = rst.getDate(6);
+                
+                rst.close();
+                
+                student = new Student(rollno, name, standard, phoneno, emailid, dob);
+            }
+        } catch (SQLException e) {
+            System.out.println("Id not found");
+        }
+        return student;
     }
 }

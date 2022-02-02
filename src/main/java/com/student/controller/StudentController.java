@@ -2,6 +2,7 @@ package com.student.controller;
 
 import java.sql.Date;
 
+import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 import com.student.service.StudentServiceImplementation;
 import com.student.service.StudentServiceImplementation2;
@@ -11,55 +12,50 @@ import com.student.view.StudentView;
  * Its get response and send request to service.
  */
 public class StudentController {
-    private static final StudentServiceImplementation service = new StudentServiceImplementation();
-    private static final StudentServiceImplementation2 service2 = new StudentServiceImplementation2();
+    private static final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
+    private static final StudentServiceImplementation2 STUDENT_SERVICEIMPL2 = new StudentServiceImplementation2();
 
     public void addStudent(int rollNo, Student student) {
-        service.addStudent(student);
-        service2.addStudent(student);
+        STUDENT_SERVICEIMPL2.addStudent(student);
     }
 
-    public void removeStudent(int rollNo) {
-        // service.removeStudent(rollNo);
-        service2.removeStudent(rollNo);
+    public void removeStudent(int rollNo) throws RecordNotfoundException {
+        STUDENT_SERVICEIMPL2.removeStudent(rollNo);
     }
 
-    public void updateStudentDetails(int rollNo, Student student) {
-        // StudentView.showValue(service.updateStudentDetails(student));
-        service2.updateStudentDetails(student);
+    public void updateStudentDetails(int rollNo, Student student) throws RecordNotfoundException {
+        StudentView.showValue(STUDENT_SERVICEIMPL2.updateStudentDetails(student));
+    }
+
+    public void getStudentDetails(int rollNo) throws RecordNotfoundException {
+        StudentView.showValue(STUDENT_SERVICEIMPL2.selectStudent(rollNo));
     }
 
     public void showAllStudents() {
-        service.showAllStudents();
-        service2.ShowAllStudents();
-    }
-
-    public void getStudentDetails(int rollNo) {
-        service.getStudentDetails(rollNo);
-        service2.getStudentDetails(rollNo);
+        STUDENT_SERVICEIMPL2.ShowAllStudents();
     }
 
     public long phoneNoValidation(String phoneNo) {
-        return service.phoneNoValidation(phoneNo);
+        return STUDENT_SERVICE.phoneNoValidation(phoneNo);
     }
 
     public int rollNoValidation(String rollNo) {
-        return service.rollNoValidation(rollNo);
+        return STUDENT_SERVICE.rollNoValidation(rollNo);
     }
 
     public String nameValidation(String name) {
-        return service.nameValidation(name);
+        return STUDENT_SERVICE.nameValidation(name);
     }
 
     public int standardValidation(String stand) {
-        return service.standardValidation(stand);
+        return STUDENT_SERVICE.standardValidation(stand);
     }
 
     public String emailIdValidation(String emailId) {
-        return service.emailIdValidation(emailId);
+        return STUDENT_SERVICE.emailIdValidation(emailId);
     }
 
     public Date dateValidation(String date) {
-        return service.dateValidation(date);
+        return STUDENT_SERVICE.dateValidation(date);
     }
 }

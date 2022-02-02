@@ -183,7 +183,6 @@ public class StudentServiceImplementation implements StudentService {
      * Its validate the date.
      */
     public Date dateValidation(String date) {
-
         try {
             LocalDate localdate = LocalDate.parse(date);
             LocalDate currentLocalDate = LocalDate.now();
