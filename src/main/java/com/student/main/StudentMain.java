@@ -1,7 +1,6 @@
 package com.student.main;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.exception.RecordNotfoundException;
@@ -32,7 +31,7 @@ public class StudentMain {
         int choice;
 
         do {
-            System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.Search\nEnter your choice:");
+            System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.SEARCH\nEnter your choice:");
             choice = SCANNER.nextInt();
             switch (choice) {
             case 1:
@@ -45,7 +44,7 @@ public class StudentMain {
                 StudentMain.removeStudent();
                 break;
             case 4:
-                StudentMain.updateStudent();
+                StudentMain.updateStudents();
                 break;
             case 5:
                 StudentMain.getStudentDetail();
@@ -92,85 +91,45 @@ public class StudentMain {
      * Its getStudent by getting key from StudentView and sending request to
      * controller.
      * 
-     * @throws SQLException
      */
     private static void getStudentDetail() {
         studentController.getStudentDetails(StudentView.getRollNo());
     }
 
     /**
-     * Its updateStudent by getting key from StudentView and user can update the
-     * particular value by using switchcase.
+     * It updateStudents detail.
      */
-    private static void updateStudent() {
-        System.out.println("1.Student Name\n2.Standard\n3.PhoneNumber\n4.EmailId\n5.DoB\n");
-        int choice = SCANNER.nextInt();
-        switch (choice) {
-        case 1:
-            updateStudentName(StudentView.getRollNo(), StudentView.getName());
-            break;
-        case 2:
-            updateStudentStand(StudentView.getRollNo(), StudentView.getStandard());
-            break;
-        case 3:
-            updateStudentPhoneNumber(StudentView.getRollNo(), StudentView.getPhoneNo());
-            break;
-        case 4:
-            updateStudentEmailId(StudentView.getRollNo(), StudentView.getEmailId());
-            break;
-        case 5:
-            updateStudentDoB(StudentView.getRollNo(), StudentView.getDate());
-            break;
+    private static void updateStudents() {
+        Student student = new Student();
+
+        student.setRollNo(StudentView.getRollNo());
+        System.out.println("Do you want to change your name?");
+
+        if (SCANNER.next().equals("yes")) {
+            student.setName(StudentView.getName());
         }
+        System.out.println("Do you want to change your standard?");
+
+        if (SCANNER.next().equals("yes")) {
+            student.setStandard(StudentView.getStandard());
+        }
+        System.out.println("Do you want to change your phoneNo?");
+
+        if (SCANNER.next().equals("yes")) {
+            student.setPhonenumber(StudentView.getPhoneNo());
+        }
+        System.out.println("Do you want to change your emailid?");
+
+        if (SCANNER.next().equals("yes")) {
+            student.setEmailId(StudentView.getEmailId());
+        }
+        System.out.println("Do you want to change your dob?");
+
+        if (SCANNER.next().equals("yes")) {
+            student.setDate(StudentView.getDate());
+        }
+
+        studentController.updateStudentDetails(student.getRollNo(), student);
     }
 
-    /**
-     * Its updateStudentName by using rollNo and sending request to controller.
-     */
-    private static void updateStudentName(int rollNo, String name) {
-        Student student = new Student();
-        student.setRollNo(rollNo);
-        student.setName(name);
-        studentController.updateStudentDetails(rollNo, student);
-    }
-
-    /**
-     * Its updateStudentStand by using rollNo and sending request to controller.
-     */
-    private static void updateStudentStand(int rollNo, int stand) {
-        Student student = new Student();
-        student.setRollNo(rollNo);
-        student.setStandard(stand);
-        studentController.updateStudentDetails(rollNo, student);
-    }
-
-    /**
-     * Its updateStudentPhoneNo by using rollNo and sending request to controller.
-     */
-    private static void updateStudentPhoneNumber(int rollNo, long phoneNumber) {
-        Student student = new Student();
-        student.setRollNo(rollNo);
-        student.setPhonenumber(phoneNumber);
-        studentController.updateStudentDetails(rollNo, student);
-    }
-
-    /**
-     * Its updateStudentDob by using rollNo and sending request to controller.
-     */
-    private static void updateStudentDoB(int rollNo, Date dob) {
-        Student student = new Student();
-        student.setRollNo(rollNo);
-        student.setDate(dob);
-        studentController.updateStudentDetails(rollNo, student);
-    }
-
-    /**
-     * Its updateStudentEmailId by using rollNo and sending request to controller.
-     */
-    private static void updateStudentEmailId(int rollNo, String emailId) {
-        Student student = new Student();
-        student.setRollNo(rollNo);
-        student.setEmailId(emailId);
-        studentController.updateStudentDetails(rollNo, student);
-    }
 }

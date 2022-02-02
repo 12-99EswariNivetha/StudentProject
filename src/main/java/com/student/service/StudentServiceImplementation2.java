@@ -10,14 +10,25 @@ public class StudentServiceImplementation2 {
      * It addStudent details to database.
      */
     public void addStudent(Student student) {
-        STUDENTDAO.addStudent(student);
+
+        if (STUDENTDAO.getAllStudentsfromdb().containsKey(student.getRollNo())) {
+            System.out.println("Id Already Exit");
+        } else {
+            STUDENTDAO.addStudent(student);
+        }
     }
 
     /**
      * It removeStudent details to database.
      */
     public void removeStudent(int rollNo) {
-        STUDENTDAO.removeStudent(rollNo);
+
+        if (STUDENTDAO.getAllStudentsfromdb().containsKey(rollNo)) {
+            STUDENTDAO.removeStudent(rollNo);
+            System.out.println("DeletedSuccesfully");
+        } else {
+            System.out.println("Record Not Found");
+        }
     }
 
     /**
@@ -33,5 +44,15 @@ public class StudentServiceImplementation2 {
     public Student updateStudentDetails(Student student) {
         STUDENTDAO.updateStudents(student);
         return student;
+    }
+
+    public void getStudentDetails(int rollNo) {
+
+        if (STUDENTDAO.getAllStudentsfromdb().containsKey(rollNo)) {
+            System.out.println(STUDENTDAO.getAllStudentsfromdb());
+        } else {
+            System.out.println("Record Not Found");
+        }
+       
     }
 }

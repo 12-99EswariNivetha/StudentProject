@@ -1,6 +1,5 @@
 package com.student.view;
 
-
 import java.sql.Date;
 import java.util.Scanner;
 
@@ -14,14 +13,14 @@ import com.student.model.Student;
 public class StudentView {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final StudentController STUDENTCONTROLLER = new StudentController();
-    
+
     /**
      * Its getRollNo from user.
      */
     public static int getRollNo() {
         System.out.println("Enter the RollNo:");
         return STUDENTCONTROLLER.rollNoValidation(SCANNER.nextLine());
-        
+
     }
 
     /**

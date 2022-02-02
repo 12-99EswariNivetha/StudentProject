@@ -42,14 +42,13 @@ public class StudentServiceImplementation implements StudentService {
      * 
      * @throws RecordNotfoundException
      */
-    public void removeStudent(int rollNo) throws RecordNotfoundException {
+    public void removeStudent(int rollNo) {
 
         if (STUDENTSLIST.containsKey(rollNo)) {
             STUDENTSLIST.remove(rollNo);
             System.out.println("DeletedSuccesfully");
         } else {
-            throw new RecordNotfoundException("Record Not Found");
-            // System.out.println("Record Not Found");
+            System.out.println("Record Not Found");
         }
     }
 
@@ -86,37 +85,21 @@ public class StudentServiceImplementation implements StudentService {
 
             if (student.getName() != null) {
                 getStudent.setName(student.getName());
-            } else if (student.getStandard() != 0) {
+            }
+            if (student.getStandard() != 0) {
                 getStudent.setStandard(student.getStandard());
-            } else if (student.getPhonenumber() != 0) {
+            }
+            if (student.getPhonenumber() != 0) {
                 getStudent.setPhonenumber(student.getPhonenumber());
-            } else if (student.getEmailId() != null) {
+            }
+            if (student.getEmailId() != null) {
                 getStudent.setEmailId(student.getEmailId());
-            } else if (student.getDate() != null) {
+            }
+            if (student.getDate() != null) {
                 getStudent.setDate(student.getDate());
             }
         } else {
             System.out.println("Record Not Found");
-        }
-        return student;
-    }
-
-    public Student updateAllStudentDetails(Student student) {
-        int rollNo = student.getRollNo();
-
-        if (STUDENTSLIST.containsKey(rollNo)) {
-            Student getStudent = STUDENTSLIST.get(rollNo);
-
-            if (student.getName() != null && student.getStandard() != 0 && student.getPhonenumber() != 0
-                    && student.getEmailId() != null && student.getDate() != null) {
-                getStudent.setName(student.getName());
-                getStudent.setStandard(student.getStandard());
-                getStudent.setPhonenumber(student.getPhonenumber());
-                getStudent.setEmailId(student.getEmailId());
-                getStudent.setDate(student.getDate());
-            } else {
-                System.out.println("Record Not Found");
-            }
         }
         return student;
     }

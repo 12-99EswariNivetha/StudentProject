@@ -77,29 +77,47 @@ public class StudentDaoImpl implements StudentDao {
     public void updateStudents(Student student) {
 
         try (final Connection connection = DBCONNECTION.getConnection();) {
-            String update = "update student set";
+            String updateStudent = "update student set";
+            boolean update = false;
 
-            if (student.getName() != null) {
-                update += " name = '" + student.getName() + "'";
-            }
-            if (student.getStandard() != 0) {
-                update += " standard = " + student.getStandard();
-            }
-            if (student.getEmailId() != null) {
-                update += " emailid = '" + student.getEmailId() + "'";
-            }
-            if (student.getPhonenumber() != 0) {
-                update += " phoneno = " + student.getPhonenumber();
-            }
+                if (student.getName()!=null) {
+                    updateStudent += " name = '" + student.getName() + "'";
+                    update = true;
+                }
+
+                if (student.getStandard() != 0) {
+                    if (update) {
+                        updateStudent += ",";
+                    }
+                    updateStudent += " standard = " + student.getStandard();
+                    update = true;
+                }
+
+                if (student.getEmailId()!=null) {
+                    if (update) {
+                        updateStudent += ",";
+                    }
+                    updateStudent += " emailid = '" + student.getEmailId() + "'";
+                    update = true;
+                }
+
+                if (student.getPhonenumber() != 0) {
+                    if (update) {
+                        updateStudent += ",";
+                    }
+                    updateStudent += " phoneno = " + student.getPhonenumber();
+                    update = true;
+                }
+
             if (student.getDate() != null) {
-                update += " dob = '" + student.getDate() + "'";
+                updateStudent += " dob = '" + student.getDate() + "'";
+                update = true;
             }
-            update += " where rollno = " + student.getRollNo();
+            updateStudent += " where rollno = " + student.getRollNo();
             Statement statement = connection.createStatement();
-            statement.executeUpdate(update);
+            statement.executeUpdate(updateStudent);
         } catch (SQLException e) {
             System.out.println("Id not found");
-            e.printStackTrace();
         }
     }
 }
