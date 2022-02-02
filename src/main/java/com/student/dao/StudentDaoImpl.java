@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,64 +77,29 @@ public class StudentDaoImpl implements StudentDao {
     public void updateStudents(Student student) {
 
         try (final Connection connection = DBCONNECTION.getConnection();) {
+            String update = "update student set";
+
             if (student.getName() != null) {
-                final PreparedStatement statement = connection
-                        .prepareStatement("UPDATE student SET name=? where rollno=?");
-
-                statement.setString(1, student.getName());
-                statement.setInt(2, student.getRollNo());
-                statement.executeUpdate();
-            } else if (student.getStandard() != 0) {
-                final PreparedStatement statement = connection
-                        .prepareStatement("UPDATE student SET standard=? where rollno=?");
-
-                statement.setInt(1, student.getStandard());
-                statement.setInt(2, student.getRollNo());
-                statement.executeUpdate();
-            } else if (student.getPhonenumber() != 0) {
-                final PreparedStatement statement = connection
-                        .prepareStatement("UPDATE student SET phoneno=? where rollno=?");
-
-                statement.setLong(1, student.getPhonenumber());
-                statement.setInt(2, student.getRollNo());
-                statement.executeUpdate();
-            } else if (student.getEmailId() != null) {
-                final PreparedStatement statement = connection
-                        .prepareStatement("UPDATE student SET emailid=? where rollno=?");
-
-                statement.setString(1, student.getEmailId());
-                statement.setInt(2, student.getRollNo());
-                statement.executeUpdate();
-            } else if (student.getDate() != null) {
-                final PreparedStatement statement = connection
-                        .prepareStatement("UPDATE student SET dob=? where rollno=?");
-
-                statement.setDate(1, student.getDate());
-                statement.setInt(2, student.getRollNo());
-                statement.executeUpdate();
+                update += " name = '" + student.getName() + "'";
             }
+            if (student.getStandard() != 0) {
+                update += " standard = " + student.getStandard();
+            }
+            if (student.getEmailId() != null) {
+                update += " emailid = '" + student.getEmailId() + "'";
+            }
+            if (student.getPhonenumber() != 0) {
+                update += " phoneno = " + student.getPhonenumber();
+            }
+            if (student.getDate() != null) {
+                update += " dob = '" + student.getDate() + "'";
+            }
+            update += " where rollno = " + student.getRollNo();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(update);
         } catch (SQLException e) {
             System.out.println("Id not found");
-        }
-    }
-
-    /**
-     * It UpdateAll Studentdetails in database.
-     */
-    public void updateAllStudents(Student student) {
-
-        try (final Connection connection = DBCONNECTION.getConnection();
-                final PreparedStatement statement = connection.prepareStatement(
-                        "UPDATE student SET name=?, standard=?, phoneno=?, emailid=?, dob=? where rollno=?");) {
-            statement.setString(1, student.getName());
-            statement.setInt(2, student.getStandard());
-            statement.setLong(3, student.getPhonenumber());
-            statement.setString(4, student.getEmailId());
-            statement.setDate(5, student.getDate());
-            statement.setInt(6, student.getRollNo());
-
-        } catch (SQLException e) {
-            System.out.println("Id not found");
+            e.printStackTrace();
         }
     }
 }

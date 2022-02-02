@@ -1,10 +1,11 @@
 package com.student.controller;
 
 import java.sql.Date;
+
+import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 import com.student.service.StudentServiceImplementation;
 import com.student.service.StudentServiceImplementation2;
-import com.student.view.StudentView;
 
 /**
  * Its get response and send request to service.
@@ -18,28 +19,23 @@ public class StudentController {
         service2.addStudent(student);
     }
 
-    public void removeStudent(int rollNo) {
+    public void removeStudent(int rollNo) throws RecordNotfoundException {
         service.removeStudent(rollNo);
         service2.removeStudent(rollNo);
     }
 
-    public void getStudentDetails(int rollNo) {
-        service.getStudentDetails(rollNo);
-    }
-
     public void updateStudentDetails(int rollNo, Student student) {
-        StudentView.showValue(service.updateStudentDetails(student));
+        // StudentView.showValue(service.updateStudentDetails(student));
         service2.updateStudentDetails(student);
-    }
-
-    public void updateAllStudentDetails(int rollNo, Student student) {
-        StudentView.showValue(service.updateAllStudentDetails(student));
-        service2.updateAllStudentDetails(student);
     }
 
     public void showAllStudents() {
         service.showAllStudents();
-        service2.getAllStudents();
+        service2.ShowAllStudents();
+    }
+
+    public void getStudentDetails(int rollNo) {
+        service.getStudentDetails(rollNo);
     }
 
     public long phoneNoValidation(String phoneNo) {

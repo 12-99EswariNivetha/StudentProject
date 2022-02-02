@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 import com.student.view.StudentView;
 
@@ -38,14 +39,17 @@ public class StudentServiceImplementation implements StudentService {
 
     /**
      * Its removeStudent details.
+     * 
+     * @throws RecordNotfoundException
      */
-    public void removeStudent(int rollNo) {
+    public void removeStudent(int rollNo) throws RecordNotfoundException {
 
         if (STUDENTSLIST.containsKey(rollNo)) {
             STUDENTSLIST.remove(rollNo);
             System.out.println("DeletedSuccesfully");
         } else {
-            System.out.println("Record Not Found");
+            throw new RecordNotfoundException("Record Not Found");
+            // System.out.println("Record Not Found");
         }
     }
 
@@ -204,7 +208,6 @@ public class StudentServiceImplementation implements StudentService {
             if (currentLocalDate.plusDays(1).isAfter(localdate)) {
                 return Date.valueOf(localdate);
             }
-
         } catch (Exception e) {
             System.out.println("Not Valid \n Re-enter a valid Date :");
             return StudentView.getDate();

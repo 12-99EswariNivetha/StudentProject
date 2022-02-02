@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import com.exception.RecordNotfoundException;
 import com.student.controller.StudentController;
 import com.student.model.Student;
 import com.student.view.StudentView;
@@ -24,12 +25,14 @@ public class StudentMain {
     /**
      * It makes use of crud operation like add, delete, update, get and remove
      * methods
+     * 
+     * @throws RecordNotfoundException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RecordNotfoundException {
         int choice;
 
         do {
-            System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.UPDATEALL\n6.Search\nEnter your choice:");
+            System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.Search\nEnter your choice:");
             choice = SCANNER.nextInt();
             switch (choice) {
             case 1:
@@ -45,9 +48,6 @@ public class StudentMain {
                 StudentMain.updateStudent();
                 break;
             case 5:
-                StudentMain.updateAllStudents();
-                break;
-            case 6:
                 StudentMain.getStudentDetail();
                 break;
             default:
@@ -81,8 +81,10 @@ public class StudentMain {
     /**
      * Its removeStudent by getting key from StudentView and sending request to
      * controller.
+     * 
+     * @throws RecordNotfoundException
      */
-    private static void removeStudent() {
+    private static void removeStudent() throws RecordNotfoundException {
         studentController.removeStudent(StudentView.getRollNo());
     }
 
@@ -115,8 +117,10 @@ public class StudentMain {
             break;
         case 4:
             updateStudentEmailId(StudentView.getRollNo(), StudentView.getEmailId());
+            break;
         case 5:
             updateStudentDoB(StudentView.getRollNo(), StudentView.getDate());
+            break;
         }
     }
 
@@ -169,24 +173,4 @@ public class StudentMain {
         student.setEmailId(emailId);
         studentController.updateStudentDetails(rollNo, student);
     }
-    
-    private static void updateAllStudents() {
-        int rollNo = StudentView.getRollNo();
-        String name = StudentView.getName();
-        int standard = StudentView.getStandard();
-        long phoneNo = StudentView.getPhoneNo();
-        String emailId = StudentView.getEmailId();
-        Date Date = StudentView.getDate();
-        
-        Student student = new Student(rollNo, name, standard, phoneNo, emailId, Date);
-
-        student.setRollNo(rollNo);
-        student.setName(name);
-        student.setStandard(standard);
-        student.setPhonenumber(phoneNo);
-        student.setEmailId(emailId);
-        student.setDate( Date);
-        studentController.updateAllStudentDetails(rollNo, student);
-    }
-
 }
