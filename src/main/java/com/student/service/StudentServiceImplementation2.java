@@ -10,7 +10,7 @@ public class StudentServiceImplementation2 {
     /**
      * It addStudent details to database.
      */
-    public void addStudent(Student student) {
+    public void addStudent(final Student student) {
 
         if (STUDENTDAO.getAllStudentsfromdb().containsKey(student.getRollNo())) {
             System.out.println("Id Already Exit");
@@ -22,7 +22,7 @@ public class StudentServiceImplementation2 {
     /**
      * It removeStudent details to database.
      */
-    public void removeStudent(int rollNo) {
+    public void removeStudent(final int rollNo) {
         boolean isDeleted = STUDENTDAO.removeStudent(rollNo);
 
         if (isDeleted) {
@@ -42,7 +42,7 @@ public class StudentServiceImplementation2 {
     /**
      * It updateStudentdetails to database.
      */
-    public Student updateStudentDetails(Student student) {
+    public Student updateStudentDetails(final Student student) {
         boolean isUpdated = STUDENTDAO.updateStudents(student);
 
         if (isUpdated) {
@@ -57,7 +57,7 @@ public class StudentServiceImplementation2 {
     /**
      * It getvalues from database.
      */
-    public Student selectStudent(int rollno) {
+    public Student selectStudent(final int rollno) {
 
         if (STUDENTDAO.getAllStudentsfromdb().containsKey(rollno)) {
             return STUDENTDAO.selectStudent(rollno);
