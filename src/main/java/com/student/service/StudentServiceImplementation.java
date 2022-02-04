@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 import com.student.view.StudentView;
 
@@ -26,7 +24,7 @@ public class StudentServiceImplementation implements StudentService {
     private static final Map<Integer, Student> STUDENTSLIST = new HashMap<Integer, Student>();
 
     /**
-     * Its addStudent details.
+     * Adds the student details.
      */
     public void addStudent(final Student student) {
 
@@ -38,9 +36,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its removeStudent details.
-     * 
-     * @throws RecordNotfoundException
+     * Removes the student details.
      */
     public void removeStudent(final int rollNo) {
 
@@ -53,7 +49,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its ShowAllStudent details which display all StudentDetails
+     * Shows all the student details.
      */
     public void showAllStudents() {
 
@@ -63,7 +59,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its getStudent details which display StudentDetails by given keyvalue
+     * Get student details which display studentDetails by given key-value
      */
     public void getStudentDetails(final int rollNo) {
 
@@ -75,7 +71,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its updateStudent details.
+     * Updates the student details.
      */
     public Student updateStudentDetails(final Student student) {
         int rollNo = student.getRollNo();
@@ -105,7 +101,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * It validate the PhoneNumber.
+     * Validates the PhoneNumber.
      */
     public long phoneNoValidation(final String phoneNo) {
         Pattern phonenoPattern = Pattern.compile("[0-9]{10}");
@@ -120,7 +116,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * It validate the Name.
+     * Validates the Name.
      */
     public String nameValidation(final String name) {
         Pattern namepattern = Pattern.compile("[a-zA-Z\\s]*$");
@@ -135,7 +131,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its validate the rollNo.
+     * Validates the RollNo.
      */
     public int rollNoValidation(final String rollNo) {
         Pattern rollNopattern = Pattern.compile("[0-9]{3}");
@@ -150,7 +146,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its validate the standard.
+     * Validates the Standard.
      */
     public int standardValidation(final String stand) {
         Pattern standardpattern = Pattern.compile("[0-9]{1,}");
@@ -165,7 +161,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its validate the emailId.
+     * Validates the EmailId.
      */
     public String emailIdValidation(final String emailId) {
         Pattern emailidpattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
@@ -180,7 +176,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     /**
-     * Its validate the date.
+     * Validates the Date.
      */
     public Date dateValidation(final String date) {
         try {

@@ -1,6 +1,8 @@
 package com.student.service;
 
-import com.exception.RecordNotfoundException;
+import java.util.Map;
+
+import com.exception.CustomException.RecordNotfoundException;
 import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
 
@@ -8,54 +10,35 @@ public class StudentServiceVersion2 {
     private final StudentDaoImpl STUDENTDAO = new StudentDaoImpl();
 
     /**
-     * It addStudent details to database.
+     * Adds the student details to database.
      */
-    public void addStudent(final Student student) {
-
-        if (STUDENTDAO.getAllStudentsfromdb().containsKey(student.getRollNo())) {
-            System.out.println("Id Already Exit");
-        } else {
-            STUDENTDAO.addStudent(student);
-        }
+    public boolean addStudent(final Student student) {
+        return STUDENTDAO.addStudent(student);
     }
 
     /**
-     * It removeStudent details to database.
+     * Removes the student details from the database.
      */
-    public void removeStudent(final int rollNo) {
-        boolean isDeleted = STUDENTDAO.removeStudent(rollNo);
-
-        if (isDeleted) {
-            System.out.println("DeletedSuccesfully");
-        } else {
-            throw new RecordNotfoundException("Record Not Found");
-        }
+    public boolean removeStudent(final int rollNo) {
+        return STUDENTDAO.removeStudent(rollNo);
     }
 
     /**
-     * It getAllStudents details from database.
+     * Get all students details from database.
      */
-    public void ShowAllStudents() {
-        System.out.println(STUDENTDAO.getAllStudentsfromdb());
+    public Map<Integer, Student> ShowAllStudents() {
+        return STUDENTDAO.getAllStudentsfromdb();
     }
 
     /**
-     * It updateStudentdetails to database.
+     * Update student details to the database.
      */
-    public Student updateStudentDetails(final Student student) {
-        boolean isUpdated = STUDENTDAO.updateStudents(student);
-
-        if (isUpdated) {
-            System.out.println("UpdatedSuccesfully");
-        } else {
-            throw new RecordNotfoundException("Record Not Found");
-        }
-
-        return student;
+    public boolean updateStudentDetails(final Student student) {
+        return STUDENTDAO.updateStudents(student);
     }
 
     /**
-     * It getvalues from database.
+     * Get values from the database.
      */
     public Student selectStudent(final int rollno) {
 

@@ -1,6 +1,5 @@
 package com.student.service;
 
-import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 
 /**
@@ -9,13 +8,13 @@ import com.student.model.Student;
 
 public interface StudentService {
 
-    void addStudent(Student student);
+    void addStudent(final Student student);
 
-    void removeStudent(int rollNo) throws RecordNotfoundException;
+    void removeStudent(final int rollNo);
 
     void showAllStudents();
 
-    void getStudentDetails(int rollNo);
+    void getStudentDetails(final int rollNo);
 
-    Student updateStudentDetails(Student student);
+    Student updateStudentDetails(final Student student);
 }

@@ -6,7 +6,7 @@ import com.student.model.Student;
 
 public interface StudentDao {
 
-    void addStudent(Student student);
+    boolean addStudent(Student student);
 
     boolean removeStudent(int rollno);
 
