@@ -108,10 +108,10 @@ public class StudentServiceImplementation implements StudentService {
      * It validate the PhoneNumber.
      */
     public long phoneNoValidation(String phoneNo) {
-        Pattern pattern = Pattern.compile("[0-9]{10}");
-        Matcher match = pattern.matcher(phoneNo);
+        Pattern phonenoPattern = Pattern.compile("[0-9]{10}");
+        Matcher phonenomatcher = phonenoPattern.matcher(phoneNo);
 
-        if (match.find() && match.group().equals(phoneNo)) {
+        if (phonenomatcher.find() && phonenomatcher.group().equals(phoneNo)) {
             return Long.parseLong(phoneNo);
         } else {
             System.out.println("Not Valid \n Re-enter a valid PhoneNo :");
@@ -123,10 +123,10 @@ public class StudentServiceImplementation implements StudentService {
      * It validate the Name.
      */
     public String nameValidation(String name) {
-        Pattern pattern = Pattern.compile("[a-zA-Z\\s]*$");
-        Matcher match = pattern.matcher(name);
+        Pattern namepattern = Pattern.compile("[a-zA-Z\\s]*$");
+        Matcher namematcher = namepattern.matcher(name);
 
-        if (match.find() && match.group().equals(name)) {
+        if (namematcher.find() && namematcher.group().equals(name)) {
             return name;
         } else {
             System.out.println("Not Valid \n Re-enter a valid Name :");
@@ -138,10 +138,10 @@ public class StudentServiceImplementation implements StudentService {
      * Its validate the rollNo.
      */
     public int rollNoValidation(String rollNo) {
-        Pattern pattern = Pattern.compile("[0-9]{3}");
-        Matcher match = pattern.matcher(rollNo);
+        Pattern rollNopattern = Pattern.compile("[0-9]{3}");
+        Matcher rollNomatcher = rollNopattern.matcher(rollNo);
 
-        if (match.find() && match.group().equals(rollNo)) {
+        if (rollNomatcher.find() && rollNomatcher.group().equals(rollNo)) {
             return Integer.parseInt(rollNo);
         } else {
             System.out.println("Not Valid \n Re-enter a valid RollNo :");
@@ -153,10 +153,10 @@ public class StudentServiceImplementation implements StudentService {
      * Its validate the standard.
      */
     public int standardValidation(String stand) {
-        Pattern pattern = Pattern.compile("[0-9]{1,}");
-        Matcher match = pattern.matcher(stand);
+        Pattern standardpattern = Pattern.compile("[0-9]{1,}");
+        Matcher standardmatcher = standardpattern.matcher(stand);
 
-        if (match.find() && match.group().equals(stand)) {
+        if (standardmatcher.find() && standardmatcher.group().equals(stand)) {
             return Integer.parseInt(stand);
         } else {
             System.out.println("Not Valid \n Re-enter a valid Standard :");
@@ -168,10 +168,10 @@ public class StudentServiceImplementation implements StudentService {
      * Its validate the emailId.
      */
     public String emailIdValidation(String emailId) {
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
-        Matcher match = pattern.matcher(emailId);
+        Pattern emailidpattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+        Matcher emailidmatcher = emailidpattern.matcher(emailId);
 
-        if (match.find() && match.group().equals(emailId)) {
+        if (emailidmatcher.find() && emailidmatcher.group().equals(emailId)) {
             return emailId;
         } else {
             System.out.println("Not Valid \n Re-enter a valid MailId :");

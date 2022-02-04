@@ -12,18 +12,18 @@ import com.student.view.StudentView;
  * Its get response and send request to service.
  */
 public class StudentController {
-    private static final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
-    private static final StudentServiceImplementation2 STUDENT_SERVICEIMPL2 = new StudentServiceImplementation2();
+    private final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
+    private final StudentServiceImplementation2 STUDENT_SERVICEIMPL2 = new StudentServiceImplementation2();
 
     public void addStudent(int rollNo, Student student) {
         STUDENT_SERVICEIMPL2.addStudent(student);
     }
 
-    public void removeStudent(int rollNo) throws RecordNotfoundException {
+    public void removeStudent(int rollNo) {
         STUDENT_SERVICEIMPL2.removeStudent(rollNo);
     }
 
-    public void updateStudentDetails(int rollNo, Student student) throws RecordNotfoundException {
+    public void updateStudentDetails(int rollNo, Student student) {
         StudentView.showValue(STUDENT_SERVICEIMPL2.updateStudentDetails(student));
     }
 

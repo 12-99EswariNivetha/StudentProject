@@ -8,11 +8,11 @@ public interface StudentDao {
 
     void addStudent(Student student);
 
-    void removeStudent(int rollno);
+    boolean removeStudent(int rollno);
 
     Map<Integer, Student> getAllStudentsfromdb();
 
-    void updateStudents(Student student);
+    boolean updateStudents(Student student);
     
     Student selectStudent(int rollno);
 

@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.exception.RecordNotfoundException;
 import com.student.model.Student;
 
 public class StudentDaoImpl implements StudentDao {
@@ -16,11 +18,11 @@ public class StudentDaoImpl implements StudentDao {
     /**
      * It addStudent details to database.
      */
-    public void addStudent(Student student) {
+    public void addStudent(final Student student) {
         final String InsertStudent = "INSERT INTO student(rollno, name, standard, phoneno, emailid, dob, isdeleted) VALUES (?,?,?,?,?,?,?)";
 
-        try (final Connection connection = DBCONNECTION.getConnection();
-                final PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
+        try (Connection connection = DBCONNECTION.getConnection();
+                PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
             statement.setInt(1, student.getRollNo());
             statement.setString(2, student.getName());
             statement.setInt(3, student.getStandard());
@@ -28,7 +30,7 @@ public class StudentDaoImpl implements StudentDao {
             statement.setString(5, student.getEmailId());
             statement.setDate(6, student.getDate());
             statement.setBoolean(7, false);
-            
+
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Values doesnot inserted");
@@ -38,16 +40,18 @@ public class StudentDaoImpl implements StudentDao {
     /**
      * It removeStudent details from database.
      */
-    public void removeStudent(int rollno) {
+    public boolean removeStudent(final int rollno) {
         final String removeStudent = "UPDATE student SET isdeleted = ? where rollno = ?";
 
-        try (final Connection connection = DBCONNECTION.getConnection();
-                final PreparedStatement statement = connection.prepareStatement(removeStudent);) {
+        try (Connection connection = DBCONNECTION.getConnection();
+                PreparedStatement statement = connection.prepareStatement(removeStudent);) {
             statement.setBoolean(1, true);
             statement.setInt(2, rollno);
+
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            System.out.println("Id not found");
+            throw new RecordNotfoundException("Record Not Found");
         }
     }
 
@@ -58,8 +62,8 @@ public class StudentDaoImpl implements StudentDao {
         final String getstudent = "Select * From student where isdeleted = false ";
         final Map<Integer, Student> Studentlist = new HashMap<Integer, Student>();
 
-        try (final Connection connection = DBCONNECTION.getConnection();
-                final PreparedStatement statement = connection.prepareStatement(getstudent);
+        try (Connection connection = DBCONNECTION.getConnection();
+                PreparedStatement statement = connection.prepareStatement(getstudent);
                 ResultSet rst = statement.executeQuery();) {
 
             while (rst.next()) {
@@ -76,74 +80,77 @@ public class StudentDaoImpl implements StudentDao {
     /**
      * It update Studentdetails in database.
      */
-    public void updateStudents(Student student) {
+    public boolean updateStudents(final Student student) {
 
-        try (final Connection connection = DBCONNECTION.getConnection();) {
-            String updateStudent = "update student set";
+        try (Connection connection = DBCONNECTION.getConnection();) {
+            StringBuilder builder = new StringBuilder();
+            String updateStudent = builder.append("update student set").toString();
+
             boolean update = false;
 
             if (student.getName() != null) {
-                updateStudent += " name = '" + student.getName() + "'";
+                updateStudent = builder.append(" name = '").append(student.getName()).append("'").toString();
                 update = true;
             }
 
             if (student.getStandard() != 0) {
                 if (update) {
-                    updateStudent += ",";
+                    updateStudent = builder.append(",").toString();
                 }
-                updateStudent += " standard = " + student.getStandard();
+                updateStudent = builder.append(" standard = ").append(student.getStandard()).toString();
                 update = true;
             }
 
             if (student.getEmailId() != null) {
                 if (update) {
-                    updateStudent += ",";
+                    updateStudent = builder.append(",").toString();
                 }
-                updateStudent += " emailid = '" + student.getEmailId() + "'";
+                updateStudent = builder.append(" emailid = '").append(student.getEmailId()).append("'").toString();
                 update = true;
             }
 
             if (student.getPhonenumber() != 0) {
                 if (update) {
-                    updateStudent += ",";
+                    updateStudent = builder.append(",").toString();
                 }
-                updateStudent += " phoneno = " + student.getPhonenumber();
+                updateStudent = builder.append(" phoneno = ").append(student.getPhonenumber()).toString();
                 update = true;
             }
 
             if (student.getDate() != null) {
-                updateStudent += " dob = '" + student.getDate() + "'";
+                updateStudent = builder.append(" dob = '").append(student.getDate()).append("'").toString();
                 update = true;
             }
-            updateStudent += " where rollno = " + student.getRollNo();
+            updateStudent = builder.append(" where rollno = ").append(student.getRollNo()).toString();
             Statement statement = connection.createStatement();
             statement.executeUpdate(updateStudent);
+            return true;
         } catch (SQLException e) {
-            System.out.println("Id not found");
+            throw new RecordNotfoundException("Record Not Found");
         }
     }
 
     /**
      * It select Studentdetails in database.
      */
-    public Student selectStudent(int rollno) {
+    public Student selectStudent(final int rollno) {
         Student student = null;
         final String getstudent = "Select * From student where rollno=?";
 
-        try (final Connection connection = DBCONNECTION.getConnection();
-                final PreparedStatement statement = connection.prepareStatement(getstudent);) {
+        try (Connection connection = DBCONNECTION.getConnection();
+                PreparedStatement statement = connection.prepareStatement(getstudent);) {
             statement.setInt(1, rollno);
             ResultSet rst = statement.executeQuery();
-            
+
             while (rst.next()) {
                 String name = rst.getString(2);
                 int standard = rst.getInt(3);
                 String emailid = rst.getString(4);
                 long phoneno = rst.getLong(5);
                 Date dob = rst.getDate(6);
-                
+
                 rst.close();
-                
+
                 student = new Student(rollno, name, standard, phoneno, emailid, dob);
             }
         } catch (SQLException e) {

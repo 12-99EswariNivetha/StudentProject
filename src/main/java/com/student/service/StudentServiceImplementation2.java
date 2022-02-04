@@ -21,13 +21,11 @@ public class StudentServiceImplementation2 {
 
     /**
      * It removeStudent details to database.
-     * 
-     * @throws RecordNotfoundException
      */
-    public void removeStudent(int rollNo) throws RecordNotfoundException {
+    public void removeStudent(int rollNo) {
+        boolean isDeleted = STUDENTDAO.removeStudent(rollNo);
 
-        if (STUDENTDAO.getAllStudentsfromdb().containsKey(rollNo)) {
-            STUDENTDAO.removeStudent(rollNo);
+        if (isDeleted) {
             System.out.println("DeletedSuccesfully");
         } else {
             throw new RecordNotfoundException("Record Not Found");
@@ -43,13 +41,12 @@ public class StudentServiceImplementation2 {
 
     /**
      * It updateStudentdetails to database.
-     * 
-     * @throws RecordNotfoundException
      */
-    public Student updateStudentDetails(Student student) throws RecordNotfoundException {
+    public Student updateStudentDetails(Student student) {
+        boolean isUpdated = STUDENTDAO.updateStudents(student);
 
-        if (STUDENTDAO.getAllStudentsfromdb().containsKey(student.getRollNo())) {
-            STUDENTDAO.updateStudents(student);
+        if (isUpdated) {
+            System.out.println("UpdatedSuccesfully");
         } else {
             throw new RecordNotfoundException("Record Not Found");
         }
@@ -59,10 +56,8 @@ public class StudentServiceImplementation2 {
 
     /**
      * It getvalues from database.
-     * 
-     * @throws RecordNotfoundException
      */
-    public Student selectStudent(int rollno) throws RecordNotfoundException {
+    public Student selectStudent(int rollno) {
 
         if (STUDENTDAO.getAllStudentsfromdb().containsKey(rollno)) {
             return STUDENTDAO.selectStudent(rollno);
