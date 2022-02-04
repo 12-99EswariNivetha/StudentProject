@@ -15,19 +15,19 @@ public class StudentController {
     private final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
     private final StudentServiceVersion2 STUDENT_SERVICE_VERSION2 = new StudentServiceVersion2();
 
-    public void addStudent(int rollNo, Student student) {
+    public void addStudent(final int rollNo, final Student student) {
         STUDENT_SERVICE_VERSION2.addStudent(student);
     }
 
-    public void removeStudent(int rollNo) {
+    public void removeStudent(final int rollNo) {
         STUDENT_SERVICE_VERSION2.removeStudent(rollNo);
     }
 
-    public void updateStudentDetails(int rollNo, Student student) {
+    public void updateStudentDetails(final int rollNo, final Student student) {
         StudentView.showValue(STUDENT_SERVICE_VERSION2.updateStudentDetails(student));
     }
 
-    public void getStudentDetails(int rollNo) throws RecordNotfoundException {
+    public void getStudentDetails(final int rollNo) throws RecordNotfoundException {
         StudentView.showValue(STUDENT_SERVICE_VERSION2.selectStudent(rollNo));
     }
 
