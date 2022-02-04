@@ -21,8 +21,8 @@ public class StudentDaoImpl implements StudentDao {
     public void addStudent(final Student student) {
         final String InsertStudent = "INSERT INTO student(rollno, name, standard, phoneno, emailid, dob, isdeleted) VALUES (?,?,?,?,?,?,?)";
 
-        try (Connection connection = DBCONNECTION.getConnection();
-                PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
+        try (final Connection connection = DBCONNECTION.getConnection();
+                final PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
             statement.setInt(1, student.getRollNo());
             statement.setString(2, student.getName());
             statement.setInt(3, student.getStandard());
@@ -43,8 +43,8 @@ public class StudentDaoImpl implements StudentDao {
     public boolean removeStudent(final int rollno) {
         final String removeStudent = "UPDATE student SET isdeleted = ? where rollno = ?";
 
-        try (Connection connection = DBCONNECTION.getConnection();
-                PreparedStatement statement = connection.prepareStatement(removeStudent);) {
+        try (final Connection connection = DBCONNECTION.getConnection();
+                final PreparedStatement statement = connection.prepareStatement(removeStudent);) {
             statement.setBoolean(1, true);
             statement.setInt(2, rollno);
 
@@ -62,8 +62,8 @@ public class StudentDaoImpl implements StudentDao {
         final String getstudent = "Select * From student where isdeleted = false ";
         final Map<Integer, Student> Studentlist = new HashMap<Integer, Student>();
 
-        try (Connection connection = DBCONNECTION.getConnection();
-                PreparedStatement statement = connection.prepareStatement(getstudent);
+        try (final Connection connection = DBCONNECTION.getConnection();
+                final PreparedStatement statement = connection.prepareStatement(getstudent);
                 ResultSet rst = statement.executeQuery();) {
 
             while (rst.next()) {
@@ -82,7 +82,7 @@ public class StudentDaoImpl implements StudentDao {
      */
     public boolean updateStudents(final Student student) {
 
-        try (Connection connection = DBCONNECTION.getConnection();) {
+        try (final Connection connection = DBCONNECTION.getConnection();) {
             StringBuilder builder = new StringBuilder();
             String updateStudent = builder.append("update student set").toString();
 
@@ -137,8 +137,8 @@ public class StudentDaoImpl implements StudentDao {
         Student student = null;
         final String getstudent = "Select * From student where rollno=?";
 
-        try (Connection connection = DBCONNECTION.getConnection();
-                PreparedStatement statement = connection.prepareStatement(getstudent);) {
+        try (final Connection connection = DBCONNECTION.getConnection();
+                final PreparedStatement statement = connection.prepareStatement(getstudent);) {
             statement.setInt(1, rollno);
             ResultSet rst = statement.executeQuery();
 
