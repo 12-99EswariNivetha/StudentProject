@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.exception.CustomException.IdAlreadyFoundException;
+import com.exception.CustomException.RecordNotfoundException;
+import com.student.main.StudentMain;
 import com.student.model.Student;
 import com.student.view.StudentView;
 
@@ -24,56 +28,59 @@ public class StudentServiceImplementation implements StudentService {
     private static final Map<Integer, Student> STUDENTSLIST = new HashMap<Integer, Student>();
 
     /**
-     * Adds the student details.
+     * Adds the student details
      */
-    public void addStudent(final Student student) {
+    public boolean addStudent(final Student student) {
 
         if (STUDENTSLIST.containsKey(student.getRollNo())) {
-            System.out.println("Id is Already Exit");
+            throw new IdAlreadyFoundException(" Id already exist");
         } else {
             STUDENTSLIST.put(student.getRollNo(), student);
+            return true;
         }
     }
 
     /**
      * Removes the student details.
      */
-    public void removeStudent(final int rollNo) {
+    public boolean removeStudent(final int rollNo) {
 
         if (STUDENTSLIST.containsKey(rollNo)) {
             STUDENTSLIST.remove(rollNo);
             System.out.println("DeletedSuccesfully");
+            return true;
         } else {
-            System.out.println("Record Not Found");
+            throw new RecordNotfoundException("Record Not Found");
         }
     }
 
     /**
      * Shows all the student details.
      */
-    public void showAllStudents() {
+    public Map<Integer, Student> showAllStudents() {
 
         for (Map.Entry<Integer, Student> show : STUDENTSLIST.entrySet()) {
             System.out.println(show);
         }
+        return STUDENTSLIST;
     }
 
     /**
-     * Get student details which display studentDetails by given key-value
+     * Get student details which display studentDetails by given key-value.
      */
-    public void getStudentDetails(final int rollNo) {
+    public Student selectStudent(int rollNo) {
 
         if (STUDENTSLIST.containsKey(rollNo)) {
-            System.out.println(STUDENTSLIST.get(rollNo));
+            return (STUDENTSLIST.get(rollNo));
         } else {
-            System.out.println("Record Not Found");
+            throw new RecordNotfoundException("Record Not Found");
         }
     }
 
     /**
      * Updates the student details.
      */
-    public Student updateStudentDetails(final Student student) {
+    public boolean updateStudentDetails(final Student student) {
         int rollNo = student.getRollNo();
 
         if (STUDENTSLIST.containsKey(rollNo)) {
@@ -94,10 +101,11 @@ public class StudentServiceImplementation implements StudentService {
             if (student.getDate() != null) {
                 getStudent.setDate(student.getDate());
             }
+            return true;
         } else {
-            System.out.println("Record Not Found");
+            throw new RecordNotfoundException("Record Not Found");
         }
-        return student;
+
     }
 
     /**
@@ -191,6 +199,14 @@ public class StudentServiceImplementation implements StudentService {
             return StudentView.getDate();
         }
         return StudentView.getDate();
-
+    }
+    public static int validateoperation(final String operation) {
+        
+        if(operation.matches("[1-5]")){
+            return Integer.parseInt(operation);
+        }else {
+            System.out.println("Select Valid Operation Use only [1-5]");
+            return validateoperation(StudentMain.SCANNER.next());
+        }
     }
 }

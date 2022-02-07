@@ -8,8 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import com.exception.CustomException.RecordNotfoundException;
-import com.exception.CustomException.IdAlreadyFoundException;
+import com.exception.CustomException.SqlQueryException;
 import com.student.model.Student;
 
 public class StudentDaoImpl implements StudentDao {
@@ -33,7 +32,7 @@ public class StudentDaoImpl implements StudentDao {
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new IdAlreadyFoundException("Id Already Exist");
+            throw new SqlQueryException("Sql Query Error");
         }
     }
 
@@ -41,16 +40,17 @@ public class StudentDaoImpl implements StudentDao {
      * Remove Student details from database.
      */
     public boolean removeStudent(final int rollno) {
-        final String removeStudent = "UPDATE student SET isdeleted = ? where rollno = ?";
+        final String removeStudent = "UPDATE student SET isdeleted = ? where rollno = ? and isdeleted = ? ";
 
         try (Connection connection = DBCONNECTION.getConnection();
                 PreparedStatement statement = connection.prepareStatement(removeStudent);) {
             statement.setBoolean(1, true);
             statement.setInt(2, rollno);
+            statement.setBoolean(3, false);
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new RecordNotfoundException("Record Not Found");
+            throw new SqlQueryException("Sql Query Error");
         }
     }
 
@@ -63,16 +63,17 @@ public class StudentDaoImpl implements StudentDao {
 
         try (Connection connection = DBCONNECTION.getConnection();
                 PreparedStatement statement = connection.prepareStatement(getstudent);
-                ResultSet rst = statement.executeQuery();) {
+                ResultSet resultset = statement.executeQuery();) {
 
-            while (rst.next()) {
-                Student student = new Student(rst.getInt("rollno"), rst.getString("name"), rst.getInt("standard"),
-                        rst.getLong("phoneno"), rst.getString("emailid"), rst.getDate("dob"));
+            while (resultset.next()) {
+                Student student = new Student(resultset.getInt("rollno"), resultset.getString("name"),
+                        resultset.getInt("standard"), resultset.getLong("phoneno"), resultset.getString("emailid"),
+                        resultset.getDate("dob"));
 
                 Studentlist.put(student.getRollNo(), student);
             }
         } catch (SQLException e) {
-            System.out.println("Id not found");
+            throw new SqlQueryException("Sql Query Error");
         }
         return Studentlist;
     }
@@ -126,7 +127,7 @@ public class StudentDaoImpl implements StudentDao {
             Statement statement = connection.createStatement();
             return statement.executeUpdate(updateStudent) > 0;
         } catch (SQLException e) {
-            throw new RecordNotfoundException("Record Not Found");
+            throw new SqlQueryException("Sql Query Error");
         }
     }
 
@@ -135,26 +136,32 @@ public class StudentDaoImpl implements StudentDao {
      */
     public Student selectStudent(final int rollno) {
         Student student = null;
-        final String getstudent = "Select * From student where rollno=?";
+        final String getstudent = "Select rollno, name, standard, emailid, phoneno, dob From student where rollno=?";
+        ResultSet resultset = null;
 
         try (final Connection connection = DBCONNECTION.getConnection();
                 final PreparedStatement statement = connection.prepareStatement(getstudent);) {
             statement.setInt(1, rollno);
-            ResultSet rst = statement.executeQuery();
+            resultset = statement.executeQuery();
 
-            while (rst.next()) {
-                String name = rst.getString(2);
-                int standard = rst.getInt(3);
-                String emailid = rst.getString(4);
-                long phoneno = rst.getLong(5);
-                Date dob = rst.getDate(6);
-
-                rst.close();
+            while (resultset.next()) {
+                String name = resultset.getString(2);
+                int standard = resultset.getInt(3);
+                String emailid = resultset.getString(4);
+                long phoneno = resultset.getLong(5);
+                Date dob = resultset.getDate(6);
 
                 student = new Student(rollno, name, standard, phoneno, emailid, dob);
             }
         } catch (SQLException e) {
-            System.out.println("Id not found");
+            throw new SqlQueryException("Sql Query Error");
+        } finally {
+
+            try {
+                resultset.close();
+            } catch (SQLException e) {
+                throw new SqlQueryException("Sql Query Error");
+            }
         }
         return student;
     }

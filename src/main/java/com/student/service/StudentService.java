@@ -1,5 +1,7 @@
 package com.student.service;
 
+import java.util.Map;
+
 import com.student.model.Student;
 
 /**
@@ -8,13 +10,13 @@ import com.student.model.Student;
 
 public interface StudentService {
 
-    void addStudent(final Student student);
+    boolean addStudent(final Student student);
 
-    void removeStudent(final int rollNo);
+    boolean removeStudent(final int rollNo);
 
-    void showAllStudents();
+    Map<Integer, Student> showAllStudents();
 
-    void getStudentDetails(final int rollNo);
+    Student selectStudent(final int rollNo);
 
-    Student updateStudentDetails(final Student student);
+    boolean updateStudentDetails(final Student student);
 }

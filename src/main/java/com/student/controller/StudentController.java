@@ -6,14 +6,13 @@ import java.util.Map;
 import com.student.model.Student;
 import com.student.service.StudentServiceImplementation;
 import com.student.service.StudentServiceVersion2;
-import com.student.view.StudentView;
 
 /**
  * Get response and send request to service.
  */
 public class StudentController {
-    private final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
-    private final StudentServiceVersion2 STUDENT_SERVICE_VERSION2 = new StudentServiceVersion2();
+    private static final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
+    private static final StudentServiceVersion2 STUDENT_SERVICE_VERSION2 = new StudentServiceVersion2();
 
     public boolean addStudent(final int rollNo, final Student student) {
         return STUDENT_SERVICE_VERSION2.addStudent(student);
@@ -31,8 +30,9 @@ public class StudentController {
         return STUDENT_SERVICE_VERSION2.ShowAllStudents();
     }
 
-    public void SearchStudentDetails(final int rollNo) {
-        StudentView.showValue(STUDENT_SERVICE_VERSION2.selectStudent(rollNo));
+    public Student SearchStudentDetails(final int rollNo) {
+        return STUDENT_SERVICE_VERSION2.selectStudent(rollNo);
+       
     }
 
     public long phoneNoValidation(final String phoneNo) {

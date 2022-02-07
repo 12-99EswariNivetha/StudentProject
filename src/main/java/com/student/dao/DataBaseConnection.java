@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DataBaseConnection {
     /**
-     * Implement Database Connection
+     * Connects the Database.
      */
     Connection getConnection() {
         Connection connection = null;

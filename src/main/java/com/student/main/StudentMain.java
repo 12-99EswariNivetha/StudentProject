@@ -1,6 +1,8 @@
 package com.student.main;
 
 import java.util.Scanner;
+
+import com.student.service.StudentServiceImplementation;
 import com.student.view.StudentView;
 
 /**
@@ -13,17 +15,17 @@ import com.student.view.StudentView;
  *
  */
 public class StudentMain {
-    private static final Scanner SCANNER = new Scanner(System.in);
+    public static final Scanner SCANNER = new Scanner(System.in);
 
     /**
      * Makes use of crud operations like add, delete, update, get and remove methods
      */
     public static void main(String[] args) {
-        int choice;
+        
 
         do {
             System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.SEARCH\nEnter your choice:");
-            choice = SCANNER.nextInt();
+            final int choice = StudentServiceImplementation.validateoperation(SCANNER.next());
 
             switch (choice) {
             case 1:
@@ -45,6 +47,6 @@ public class StudentMain {
                 SCANNER.close();
                 System.exit(0);
             }
-        } while (choice != 0);
+        } while (true);
     }
 }

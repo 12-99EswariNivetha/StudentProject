@@ -1,7 +1,7 @@
 package com.student.service;
 
 import java.util.Map;
-
+import com.exception.CustomException.IdAlreadyFoundException;
 import com.exception.CustomException.RecordNotfoundException;
 import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
@@ -13,14 +13,25 @@ public class StudentServiceVersion2 {
      * Adds the student details to database.
      */
     public boolean addStudent(final Student student) {
-        return STUDENTDAO.addStudent(student);
+
+        if (STUDENTDAO.getAllStudentsfromdb().containsKey(student.getRollNo())) {
+            throw new IdAlreadyFoundException(" Id already exist");
+        } else {
+            return STUDENTDAO.addStudent(student);
+        }
+
     }
 
     /**
      * Removes the student details from the database.
      */
     public boolean removeStudent(final int rollNo) {
-        return STUDENTDAO.removeStudent(rollNo);
+        final boolean isRemoved = STUDENTDAO.removeStudent(rollNo);
+        if (isRemoved) {
+            return true;
+        }
+        throw new RecordNotfoundException(" Record Not Found ");
+
     }
 
     /**
@@ -34,7 +45,12 @@ public class StudentServiceVersion2 {
      * Update student details to the database.
      */
     public boolean updateStudentDetails(final Student student) {
-        return STUDENTDAO.updateStudents(student);
+        final boolean isUpdated = STUDENTDAO.updateStudents(student);
+        if (isUpdated) {
+            return true;
+        }
+        throw new RecordNotfoundException(" Record Not Found ");
+
     }
 
     /**

@@ -12,19 +12,18 @@ public class CustomException extends RuntimeException {
             super(msg);
         }
     }
-    
+
     public static class IdAlreadyFoundException extends CustomException {
 
         public IdAlreadyFoundException(String msg) {
             super(msg);
         }
     }
-    
-    public static class InputMismatchException extends CustomException {
 
-        public InputMismatchException(String msg) {
+    public static class SqlQueryException extends CustomException {
+
+        public SqlQueryException(String msg) {
             super(msg);
         }
     }
-    
 }
