@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.exception.CustomException.IdAlreadyFoundException;
-import com.exception.CustomException.RecordNotfoundException;
+import com.student.exception.CustomException.IdAlreadyFoundException;
+import com.student.exception.CustomException.RecordNotfoundException;
 import com.student.main.StudentMain;
 import com.student.model.Student;
 import com.student.view.StudentView;
@@ -89,7 +89,7 @@ public class StudentServiceImplementation implements StudentService {
             if (student.getName() != null) {
                 getStudent.setName(student.getName());
             }
-            if (student.getStandard() != 0) {
+            if (student.getStandard() != null) {
                 getStudent.setStandard(student.getStandard());
             }
             if (student.getPhonenumber() != 0) {
@@ -156,23 +156,24 @@ public class StudentServiceImplementation implements StudentService {
     /**
      * Validates the Standard.
      */
-    public int standardValidation(final String stand) {
-        Pattern standardpattern = Pattern.compile("[0-9]{1,}");
-        Matcher standardmatcher = standardpattern.matcher(stand);
-
-        if (standardmatcher.find() && standardmatcher.group().equals(stand)) {
-            return Integer.parseInt(stand);
-        } else {
+    public String standardValidation(final String stand) {
+        int std = Integer.parseInt(stand);
+        
+        if(std<13 && std >0 || (stand.equals("Pre.K.G")||(stand.equals("L.K.G")||(stand.equals("U.K.G"))))) {
+            return stand;
+        }else {
             System.out.println("Not Valid \n Re-enter a valid Standard :");
             return StudentView.getStandard();
+        
         }
+       
     }
 
     /**
      * Validates the EmailId.
      */
     public String emailIdValidation(final String emailId) {
-        Pattern emailidpattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+        Pattern emailidpattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+.[a-z]{2,3}+$");
         Matcher emailidmatcher = emailidpattern.matcher(emailId);
 
         if (emailidmatcher.find() && emailidmatcher.group().equals(emailId)) {
@@ -200,13 +201,16 @@ public class StudentServiceImplementation implements StudentService {
         }
         return StudentView.getDate();
     }
-    public static int validateoperation(final String operation) {
+    /**
+     *  Validates the Choice.
+     */
+    public static int validateChoice(final String choice) {
         
-        if(operation.matches("[1-5]")){
-            return Integer.parseInt(operation);
+        if(choice.matches("[1-5]")){
+            return Integer.parseInt(choice);
         }else {
-            System.out.println("Select Valid Operation Use only [1-5]");
-            return validateoperation(StudentMain.SCANNER.next());
+            System.out.println("Select Valid Choice Use only [1-5]");
+            return validateChoice(StudentMain.SCANNER.next());
         }
     }
 }

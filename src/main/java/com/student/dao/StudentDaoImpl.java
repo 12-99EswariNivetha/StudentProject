@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import com.exception.CustomException.SqlQueryException;
+import com.student.exception.CustomException.AccessFailedException;
 import com.student.model.Student;
 
 public class StudentDaoImpl implements StudentDao {
@@ -24,7 +24,7 @@ public class StudentDaoImpl implements StudentDao {
                 PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
             statement.setInt(1, student.getRollNo());
             statement.setString(2, student.getName());
-            statement.setInt(3, student.getStandard());
+            statement.setString(3, student.getStandard());
             statement.setLong(4, student.getPhonenumber());
             statement.setString(5, student.getEmailId());
             statement.setDate(6, student.getDate());
@@ -32,7 +32,7 @@ public class StudentDaoImpl implements StudentDao {
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new SqlQueryException("Sql Query Error");
+            throw new AccessFailedException("Database Access Failed");
         }
     }
 
@@ -50,7 +50,7 @@ public class StudentDaoImpl implements StudentDao {
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new SqlQueryException("Sql Query Error");
+            throw new AccessFailedException("Database Access Failed");
         }
     }
 
@@ -67,13 +67,13 @@ public class StudentDaoImpl implements StudentDao {
 
             while (resultset.next()) {
                 Student student = new Student(resultset.getInt("rollno"), resultset.getString("name"),
-                        resultset.getInt("standard"), resultset.getLong("phoneno"), resultset.getString("emailid"),
+                        resultset.getString("standard"), resultset.getLong("phoneno"), resultset.getString("emailid"),
                         resultset.getDate("dob"));
 
                 Studentlist.put(student.getRollNo(), student);
             }
         } catch (SQLException e) {
-            throw new SqlQueryException("Sql Query Error");
+            throw new AccessFailedException("Database Access Failed");
         }
         return Studentlist;
     }
@@ -94,15 +94,16 @@ public class StudentDaoImpl implements StudentDao {
                 hasNextField = true;
             }
 
-            if (student.getStandard() != 0) {
+            if (student.getStandard() != null) {
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
                 }
-                updateStudent = queryBuilder.append(" standard = ").append(student.getStandard()).toString();
+                updateStudent = queryBuilder.append(" standard = ").append(student.getStandard()).append("'").toString();
                 hasNextField = true;
             }
 
             if (student.getEmailId() != null) {
+
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
                 }
@@ -111,6 +112,7 @@ public class StudentDaoImpl implements StudentDao {
             }
 
             if (student.getPhonenumber() != 0) {
+
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
                 }
@@ -127,7 +129,7 @@ public class StudentDaoImpl implements StudentDao {
             Statement statement = connection.createStatement();
             return statement.executeUpdate(updateStudent) > 0;
         } catch (SQLException e) {
-            throw new SqlQueryException("Sql Query Error");
+            throw new AccessFailedException("Database Access Failed");
         }
     }
 
@@ -137,31 +139,25 @@ public class StudentDaoImpl implements StudentDao {
     public Student selectStudent(final int rollno) {
         Student student = null;
         final String getstudent = "Select rollno, name, standard, emailid, phoneno, dob From student where rollno=?";
-        ResultSet resultset = null;
 
         try (final Connection connection = DBCONNECTION.getConnection();
                 final PreparedStatement statement = connection.prepareStatement(getstudent);) {
             statement.setInt(1, rollno);
-            resultset = statement.executeQuery();
+            
+            try (ResultSet resultset = statement.executeQuery();) {
 
-            while (resultset.next()) {
-                String name = resultset.getString(2);
-                int standard = resultset.getInt(3);
-                String emailid = resultset.getString(4);
-                long phoneno = resultset.getLong(5);
-                Date dob = resultset.getDate(6);
+                while (resultset.next()) {
+                    String name = resultset.getString(2);
+                    String standard = resultset.getString(3);
+                    String emailid = resultset.getString(4);
+                    long phoneno = resultset.getLong(5);
+                    Date dob = resultset.getDate(6);
 
-                student = new Student(rollno, name, standard, phoneno, emailid, dob);
+                    student = new Student(rollno, name, standard, phoneno, emailid, dob);
+                }
             }
         } catch (SQLException e) {
-            throw new SqlQueryException("Sql Query Error");
-        } finally {
-
-            try {
-                resultset.close();
-            } catch (SQLException e) {
-                throw new SqlQueryException("Sql Query Error");
-            }
+            throw new AccessFailedException("Database Access Failed");
         }
         return student;
     }

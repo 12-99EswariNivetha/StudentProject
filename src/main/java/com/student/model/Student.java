@@ -11,7 +11,7 @@ import java.sql.Date;
 public class Student {
     private int rollNo;
     private String name;
-    private int standard;
+    private String standard;
     private long phonenumber;
     private String emailId;
     private Date date;
@@ -20,7 +20,7 @@ public class Student {
         super();
     }
 
-    public Student(int rollNo, String name, int standard, long phonenumber, String emailId, Date date) {
+    public Student(int rollNo, String name, String standard, long phonenumber, String emailId, Date date) {
         this.rollNo = rollNo;
         this.name = name;
         this.standard = standard;
@@ -45,11 +45,11 @@ public class Student {
         this.name = name;
     }
 
-    public int getStandard() {
+    public String getStandard() {
         return standard;
     }
 
-    public void setStandard(int standard) {
+    public void setStandard(String standard) {
         this.standard = standard;
     }
 

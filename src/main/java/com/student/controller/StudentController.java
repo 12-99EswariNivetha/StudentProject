@@ -47,7 +47,7 @@ public class StudentController {
         return STUDENT_SERVICE.nameValidation(name);
     }
 
-    public int standardValidation(final String stand) {
+    public String standardValidation(final String stand) {
         return STUDENT_SERVICE.standardValidation(stand);
     }
 

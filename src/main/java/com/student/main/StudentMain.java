@@ -6,9 +6,8 @@ import com.student.service.StudentServiceImplementation;
 import com.student.view.StudentView;
 
 /**
- * <h1>StudentDetails!</h1>
+ * StudentDetails!
  * 
- * @see java.util.scanner
  * @author EswariNivethaVU
  * @version 17.0.1
  * @since 1.2
@@ -25,7 +24,7 @@ public class StudentMain {
 
         do {
             System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.SEARCH\nEnter your choice:");
-            final int choice = StudentServiceImplementation.validateoperation(SCANNER.next());
+            final int choice = StudentServiceImplementation.validateChoice(SCANNER.next());
 
             switch (choice) {
             case 1:

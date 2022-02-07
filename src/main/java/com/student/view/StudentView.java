@@ -4,13 +4,13 @@ import java.sql.Date;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.exception.CustomException;
-import com.exception.CustomException.RecordNotfoundException;
+import com.student.exception.CustomException;
+import com.student.exception.CustomException.RecordNotfoundException;
 import com.student.controller.StudentController;
 import com.student.model.Student;
 
 /**
- * <h1>Student, View!</h1> The StudentView program implements an application
+ * Student, View! The StudentView program implements an application
  * that simply displays "User input".
  */
 public class StudentView {
@@ -36,7 +36,7 @@ public class StudentView {
     /**
      * Get standard from user.
      */
-    public static int getStandard() {
+    public static String getStandard() {
         System.out.println("Enter the Standard:");
         return STUDENTCONTROLLER.standardValidation(SCANNER.nextLine());
     }
@@ -80,7 +80,7 @@ public class StudentView {
         try {
             final int rollNo = StudentView.getRollNo();
             final String name = StudentView.getName();
-            final int standard = StudentView.getStandard();
+            final String standard = StudentView.getStandard();
             final long phoneNo = StudentView.getPhoneNo();
             final String emailId = StudentView.getEmailId();
             final Date Date = StudentView.getDate();

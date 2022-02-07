@@ -1,8 +1,8 @@
 package com.student.service;
 
 import java.util.Map;
-import com.exception.CustomException.IdAlreadyFoundException;
-import com.exception.CustomException.RecordNotfoundException;
+import com.student.exception.CustomException.IdAlreadyFoundException;
+import com.student.exception.CustomException.RecordNotfoundException;
 import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
 
@@ -27,6 +27,7 @@ public class StudentServiceVersion2 {
      */
     public boolean removeStudent(final int rollNo) {
         final boolean isRemoved = STUDENTDAO.removeStudent(rollNo);
+        
         if (isRemoved) {
             return true;
         }
@@ -46,6 +47,7 @@ public class StudentServiceVersion2 {
      */
     public boolean updateStudentDetails(final Student student) {
         final boolean isUpdated = STUDENTDAO.updateStudents(student);
+        
         if (isUpdated) {
             return true;
         }
