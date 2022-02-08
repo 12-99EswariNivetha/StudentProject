@@ -7,6 +7,7 @@ import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
 
 public class StudentServiceVersion2 {
+    
     private final StudentDaoImpl STUDENTDAO = new StudentDaoImpl();
 
     /**
@@ -19,7 +20,6 @@ public class StudentServiceVersion2 {
         } else {
             return STUDENTDAO.addStudent(student);
         }
-
     }
 
     /**
@@ -32,7 +32,6 @@ public class StudentServiceVersion2 {
             return true;
         }
         throw new RecordNotfoundException(" Record Not Found ");
-
     }
 
     /**
@@ -52,7 +51,6 @@ public class StudentServiceVersion2 {
             return true;
         }
         throw new RecordNotfoundException(" Record Not Found ");
-
     }
 
     /**
@@ -66,5 +64,4 @@ public class StudentServiceVersion2 {
             throw new RecordNotfoundException("Record Not Found");
         }
     }
-
 }

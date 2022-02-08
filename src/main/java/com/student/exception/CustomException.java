@@ -24,7 +24,13 @@ public class CustomException extends RuntimeException {
 
         public AccessFailedException(String msg) {
             super(msg);
-            // TODO Auto-generated constructor stub
+        }
+    }
+    
+    public static class InValidDateException extends CustomException {
+
+        public InValidDateException(String msg) {
+            super(msg);
         }
     }
 }

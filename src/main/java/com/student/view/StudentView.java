@@ -8,21 +8,31 @@ import com.student.exception.CustomException;
 import com.student.exception.CustomException.RecordNotfoundException;
 import com.student.controller.StudentController;
 import com.student.model.Student;
+import com.student.service.Validation;
 
 /**
- * Student, View! The StudentView program implements an application
- * that simply displays "User input".
+ * Student, View! The StudentView program implements an application that simply
+ * displays "User input".
  */
 public class StudentView {
+
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final Validation VALIDATE = new Validation();
     private static final StudentController STUDENTCONTROLLER = new StudentController();
 
     /**
      * Get rollno from user.
      */
     public static int getRollNo() {
-        System.out.println("Enter the RollNo:");
-        return STUDENTCONTROLLER.rollNoValidation(SCANNER.nextLine());
+        System.out.println("Enter the RollNo(Give 3 Digit No):");
+        final String rollNo = SCANNER.nextLine();
+        final boolean isValid = VALIDATE.rollNoValidation(rollNo);
+        if (isValid) {
+            return Integer.parseInt(rollNo);
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid RollNo :");
+            return StudentView.getRollNo();
+        }
     }
 
     /**
@@ -30,7 +40,14 @@ public class StudentView {
      */
     public static String getName() {
         System.out.println("Enter the Name:");
-        return STUDENTCONTROLLER.nameValidation(SCANNER.nextLine());
+        final String name = SCANNER.nextLine();
+        final boolean isValid = VALIDATE.nameValidation(name);
+        if (isValid) {
+            return name;
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid Name :");
+            return StudentView.getName();
+        }
     }
 
     /**
@@ -38,7 +55,14 @@ public class StudentView {
      */
     public static String getStandard() {
         System.out.println("Enter the Standard:");
-        return STUDENTCONTROLLER.standardValidation(SCANNER.nextLine());
+        final String stand = SCANNER.nextLine();
+        final boolean isValid = VALIDATE.standardValidation(stand);
+        if (isValid) {
+            return stand;
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid Standard :");
+            return StudentView.getStandard();
+        }
     }
 
     /**
@@ -46,7 +70,14 @@ public class StudentView {
      */
     public static long getPhoneNo() {
         System.out.println("Enter the PhoneNumber:");
-        return STUDENTCONTROLLER.phoneNoValidation(SCANNER.nextLine());
+        final String phoneNo = SCANNER.nextLine();
+        final boolean isValid = VALIDATE.phoneNoValidation(phoneNo);
+        if (isValid) {
+            return Long.parseLong(phoneNo);
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid PhoneNo :");
+            return StudentView.getPhoneNo();
+        }
     }
 
     /**
@@ -54,7 +85,14 @@ public class StudentView {
      */
     public static String getEmailId() {
         System.out.println("Enter the EmailId:");
-        return STUDENTCONTROLLER.emailIdValidation(SCANNER.nextLine());
+        final String emailId = SCANNER.nextLine();
+        final boolean isValid = VALIDATE.emailIdValidation(emailId);
+        if (isValid) {
+            return emailId;
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid MailId :");
+            return StudentView.getEmailId();
+        }
     }
 
     /**
@@ -62,7 +100,21 @@ public class StudentView {
      */
     public static Date getDate() {
         System.out.println("Enter DoB(yyyy-mm-dd):");
-        return STUDENTCONTROLLER.dateValidation(SCANNER.nextLine());
+        final String date = SCANNER.nextLine();
+        boolean isValid = false;
+        
+        try {
+            isValid = VALIDATE.dateValidation(date);
+        } catch (CustomException e) {
+            System.out.println(e);
+        }
+        
+        if (isValid) {
+            return Date.valueOf(date);
+        } else {
+            System.out.println("Not Valid \n Re-enter a valid Date :");
+            return StudentView.getDate();
+        }
     }
 
     /**
@@ -87,7 +139,7 @@ public class StudentView {
 
             final Student student = new Student(rollNo, name, standard, phoneNo, emailId, Date);
 
-            boolean isInserted = STUDENTCONTROLLER.addStudent(rollNo, student);
+            final boolean isInserted = STUDENTCONTROLLER.addStudent(rollNo, student);
 
             if (isInserted) {
                 System.out.println("Inserted SuccessFully");
@@ -111,7 +163,7 @@ public class StudentView {
      */
     public static void removeStudent() {
         try {
-            boolean isRemoved = STUDENTCONTROLLER.removeStudent(StudentView.getRollNo());
+            final boolean isRemoved = STUDENTCONTROLLER.removeStudent(StudentView.getRollNo());
 
             if (isRemoved) {
                 System.out.println("Deleted SuccessFully");
@@ -125,7 +177,7 @@ public class StudentView {
      * GetStudent by getting key from StudentView and sending a request to
      * controller.
      */
-    public static void getStudentDetail() {
+    public static void selectStudent() {
         try {
             StudentView.showValue(STUDENTCONTROLLER.SearchStudentDetails(StudentView.getRollNo()));
         } catch (RecordNotfoundException e) {
@@ -136,7 +188,7 @@ public class StudentView {
     /**
      * UpdateStudents detail.
      */
-    public static void updateStudents() {
+    public static void updateStudent() {
         try {
             Student student = new Student();
 
@@ -167,7 +219,7 @@ public class StudentView {
                 student.setDate(StudentView.getDate());
             }
 
-            boolean isUpdated = STUDENTCONTROLLER.updateStudentDetails(student.getRollNo(), student);
+            final boolean isUpdated = STUDENTCONTROLLER.updateStudentDetails(student.getRollNo(), student);
 
             if (isUpdated) {
                 System.out.println("Updated SuccessFully");

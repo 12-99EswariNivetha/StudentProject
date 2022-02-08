@@ -1,6 +1,5 @@
 package com.student.controller;
 
-import java.sql.Date;
 import java.util.Map;
 
 import com.student.model.Student;
@@ -11,7 +10,8 @@ import com.student.service.StudentServiceVersion2;
  * Get response and send request to service.
  */
 public class StudentController {
-    private static final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
+
+   // private static final StudentServiceImplementation STUDENT_SERVICE = new StudentServiceImplementation();
     private static final StudentServiceVersion2 STUDENT_SERVICE_VERSION2 = new StudentServiceVersion2();
 
     public boolean addStudent(final int rollNo, final Student student) {
@@ -32,30 +32,6 @@ public class StudentController {
 
     public Student SearchStudentDetails(final int rollNo) {
         return STUDENT_SERVICE_VERSION2.selectStudent(rollNo);
-       
-    }
 
-    public long phoneNoValidation(final String phoneNo) {
-        return STUDENT_SERVICE.phoneNoValidation(phoneNo);
-    }
-
-    public int rollNoValidation(final String rollNo) {
-        return STUDENT_SERVICE.rollNoValidation(rollNo);
-    }
-
-    public String nameValidation(final String name) {
-        return STUDENT_SERVICE.nameValidation(name);
-    }
-
-    public String standardValidation(final String stand) {
-        return STUDENT_SERVICE.standardValidation(stand);
-    }
-
-    public String emailIdValidation(final String emailId) {
-        return STUDENT_SERVICE.emailIdValidation(emailId);
-    }
-
-    public Date dateValidation(final String date) {
-        return STUDENT_SERVICE.dateValidation(date);
     }
 }

@@ -2,7 +2,7 @@ package com.student.main;
 
 import java.util.Scanner;
 
-import com.student.service.StudentServiceImplementation;
+import com.student.service.Validation;
 import com.student.view.StudentView;
 
 /**
@@ -14,6 +14,7 @@ import com.student.view.StudentView;
  *
  */
 public class StudentMain {
+    
     public static final Scanner SCANNER = new Scanner(System.in);
 
     /**
@@ -21,10 +22,9 @@ public class StudentMain {
      */
     public static void main(String[] args) {
         
-
         do {
             System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.SEARCH\nEnter your choice:");
-            final int choice = StudentServiceImplementation.validateChoice(SCANNER.next());
+            final int choice = Validation.validateChoice(SCANNER.next());
 
             switch (choice) {
             case 1:
@@ -37,10 +37,10 @@ public class StudentMain {
                 StudentView.removeStudent();
                 break;
             case 4:
-                StudentView.updateStudents();
+                StudentView.updateStudent();
                 break;
             case 5:
-                StudentView.getStudentDetail();
+                StudentView.selectStudent();
                 break;
             default:
                 SCANNER.close();

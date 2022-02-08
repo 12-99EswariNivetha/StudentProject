@@ -1,17 +1,9 @@
 package com.student.service;
-
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.student.exception.CustomException.IdAlreadyFoundException;
 import com.student.exception.CustomException.RecordNotfoundException;
-import com.student.main.StudentMain;
 import com.student.model.Student;
-import com.student.view.StudentView;
 
 /**
  * Service Implementation! StudentServiceImplementation implements
@@ -105,112 +97,7 @@ public class StudentServiceImplementation implements StudentService {
         } else {
             throw new RecordNotfoundException("Record Not Found");
         }
-
     }
 
-    /**
-     * Validates the PhoneNumber.
-     */
-    public long phoneNoValidation(final String phoneNo) {
-        Pattern phonenoPattern = Pattern.compile("[0-9]{10}");
-        Matcher phonenomatcher = phonenoPattern.matcher(phoneNo);
-
-        if (phonenomatcher.find() && phonenomatcher.group().equals(phoneNo)) {
-            return Long.parseLong(phoneNo);
-        } else {
-            System.out.println("Not Valid \n Re-enter a valid PhoneNo :");
-            return StudentView.getPhoneNo();
-        }
-    }
-
-    /**
-     * Validates the Name.
-     */
-    public String nameValidation(final String name) {
-        Pattern namepattern = Pattern.compile("[a-zA-Z\\s]*$");
-        Matcher namematcher = namepattern.matcher(name);
-
-        if (namematcher.find() && namematcher.group().equals(name)) {
-            return name;
-        } else {
-            System.out.println("Not Valid \n Re-enter a valid Name :");
-            return StudentView.getName();
-        }
-    }
-
-    /**
-     * Validates the RollNo.
-     */
-    public int rollNoValidation(final String rollNo) {
-        Pattern rollNopattern = Pattern.compile("[0-9]{3}");
-        Matcher rollNomatcher = rollNopattern.matcher(rollNo);
-
-        if (rollNomatcher.find() && rollNomatcher.group().equals(rollNo)) {
-            return Integer.parseInt(rollNo);
-        } else {
-            System.out.println("Not Valid \n Re-enter a valid RollNo :");
-            return StudentView.getRollNo();
-        }
-    }
-
-    /**
-     * Validates the Standard.
-     */
-    public String standardValidation(final String stand) {
-        int std = Integer.parseInt(stand);
-        
-        if(std<13 && std >0 || (stand.equals("Pre.K.G")||(stand.equals("L.K.G")||(stand.equals("U.K.G"))))) {
-            return stand;
-        }else {
-            System.out.println("Not Valid \n Re-enter a valid Standard :");
-            return StudentView.getStandard();
-        
-        }
-       
-    }
-
-    /**
-     * Validates the EmailId.
-     */
-    public String emailIdValidation(final String emailId) {
-        Pattern emailidpattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+.[a-z]{2,3}+$");
-        Matcher emailidmatcher = emailidpattern.matcher(emailId);
-
-        if (emailidmatcher.find() && emailidmatcher.group().equals(emailId)) {
-            return emailId;
-        } else {
-            System.out.println("Not Valid \n Re-enter a valid MailId :");
-            return StudentView.getEmailId();
-        }
-    }
-
-    /**
-     * Validates the Date.
-     */
-    public Date dateValidation(final String date) {
-        try {
-            LocalDate localdate = LocalDate.parse(date);
-            LocalDate currentLocalDate = LocalDate.now();
-
-            if (currentLocalDate.plusDays(1).isAfter(localdate)) {
-                return Date.valueOf(localdate);
-            }
-        } catch (Exception e) {
-            System.out.println("Not Valid \n Re-enter a valid Date :");
-            return StudentView.getDate();
-        }
-        return StudentView.getDate();
-    }
-    /**
-     *  Validates the Choice.
-     */
-    public static int validateChoice(final String choice) {
-        
-        if(choice.matches("[1-5]")){
-            return Integer.parseInt(choice);
-        }else {
-            System.out.println("Select Valid Choice Use only [1-5]");
-            return validateChoice(StudentMain.SCANNER.next());
-        }
-    }
+    
 }
