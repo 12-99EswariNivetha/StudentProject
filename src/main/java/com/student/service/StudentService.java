@@ -5,7 +5,7 @@ import java.util.Map;
 import com.student.model.Student;
 
 /**
- * marks StudentsServiceImplementation implements StudentsService
+ * StudentsServiceImplementation implements StudentsService
  */
 
 public interface StudentService {

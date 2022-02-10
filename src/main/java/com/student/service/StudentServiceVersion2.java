@@ -7,8 +7,8 @@ import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
 
 public class StudentServiceVersion2 {
-    
-    private final StudentDaoImpl STUDENTDAO = new StudentDaoImpl();
+
+    private static final StudentDaoImpl STUDENTDAO = new StudentDaoImpl();
 
     /**
      * Adds the student details to database.
@@ -27,7 +27,7 @@ public class StudentServiceVersion2 {
      */
     public boolean removeStudent(final int rollNo) {
         final boolean isRemoved = STUDENTDAO.removeStudent(rollNo);
-        
+
         if (isRemoved) {
             return true;
         }
@@ -38,7 +38,12 @@ public class StudentServiceVersion2 {
      * Get all students details from database.
      */
     public Map<Integer, Student> ShowAllStudents() {
-        return STUDENTDAO.getAllStudentsfromdb();
+        final Map<Integer, Student> students = STUDENTDAO.getAllStudentsfromdb();
+
+        if (!students.isEmpty()) {
+            return students;
+        }
+        throw new RecordNotfoundException(" Record Not Found ");
     }
 
     /**
@@ -46,7 +51,7 @@ public class StudentServiceVersion2 {
      */
     public boolean updateStudentDetails(final Student student) {
         final boolean isUpdated = STUDENTDAO.updateStudents(student);
-        
+
         if (isUpdated) {
             return true;
         }

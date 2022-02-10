@@ -5,7 +5,6 @@ import java.sql.Date;
 /**
  * It is a model class to hold Student information
  *
- * @see java.lang.Object
  * @author EswariNivethaVU
  */
 public class Student {

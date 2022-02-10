@@ -1,9 +1,8 @@
 package com.student.view;
 
 import java.sql.Date;
-import java.util.Map;
 import java.util.Scanner;
-
+import org.apache.log4j.Logger;
 import com.student.exception.CustomException;
 import com.student.exception.CustomException.RecordNotfoundException;
 import com.student.controller.StudentController;
@@ -19,6 +18,7 @@ public class StudentView {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Validation VALIDATE = new Validation();
     private static final StudentController STUDENTCONTROLLER = new StudentController();
+    private static final Logger logger = Logger.getLogger(StudentView.class);
 
     /**
      * Get rollno from user.
@@ -27,10 +27,11 @@ public class StudentView {
         System.out.println("Enter the RollNo(Give 3 Digit No):");
         final String rollNo = SCANNER.nextLine();
         final boolean isValid = VALIDATE.rollNoValidation(rollNo);
+        
         if (isValid) {
             return Integer.parseInt(rollNo);
         } else {
-            System.out.println("Not Valid \n Re-enter a valid RollNo :");
+            logger.error("Not Valid \n Re-enter a valid RollNo :");
             return StudentView.getRollNo();
         }
     }
@@ -42,10 +43,11 @@ public class StudentView {
         System.out.println("Enter the Name:");
         final String name = SCANNER.nextLine();
         final boolean isValid = VALIDATE.nameValidation(name);
+        
         if (isValid) {
             return name;
         } else {
-            System.out.println("Not Valid \n Re-enter a valid Name :");
+            logger.error("Not Valid \n Re-enter a valid Name :");
             return StudentView.getName();
         }
     }
@@ -57,10 +59,11 @@ public class StudentView {
         System.out.println("Enter the Standard:");
         final String stand = SCANNER.nextLine();
         final boolean isValid = VALIDATE.standardValidation(stand);
+        
         if (isValid) {
             return stand;
         } else {
-            System.out.println("Not Valid \n Re-enter a valid Standard :");
+            logger.error("Not Valid \n Re-enter a valid Standard :");
             return StudentView.getStandard();
         }
     }
@@ -72,10 +75,11 @@ public class StudentView {
         System.out.println("Enter the PhoneNumber:");
         final String phoneNo = SCANNER.nextLine();
         final boolean isValid = VALIDATE.phoneNoValidation(phoneNo);
+        
         if (isValid) {
             return Long.parseLong(phoneNo);
         } else {
-            System.out.println("Not Valid \n Re-enter a valid PhoneNo :");
+            logger.error("Not Valid \n Re-enter a valid PhoneNo :");
             return StudentView.getPhoneNo();
         }
     }
@@ -87,10 +91,11 @@ public class StudentView {
         System.out.println("Enter the EmailId:");
         final String emailId = SCANNER.nextLine();
         final boolean isValid = VALIDATE.emailIdValidation(emailId);
+        
         if (isValid) {
             return emailId;
         } else {
-            System.out.println("Not Valid \n Re-enter a valid MailId :");
+            logger.error("Not Valid \n Re-enter a valid MailId :");
             return StudentView.getEmailId();
         }
     }
@@ -99,29 +104,23 @@ public class StudentView {
      * Get date from user.
      */
     public static Date getDate() {
+
         System.out.println("Enter DoB(yyyy-mm-dd):");
         final String date = SCANNER.nextLine();
         boolean isValid = false;
-        
+
         try {
             isValid = VALIDATE.dateValidation(date);
         } catch (CustomException e) {
             System.out.println(e);
         }
-        
+
         if (isValid) {
             return Date.valueOf(date);
         } else {
-            System.out.println("Not Valid \n Re-enter a valid Date :");
+            logger.error("Not Valid \n Re-enter a valid Date :");
             return StudentView.getDate();
         }
-    }
-
-    /**
-     * Display the value of student.
-     */
-    public static void showValue(Student student) {
-        System.out.println(student);
     }
 
     /**
@@ -129,6 +128,7 @@ public class StudentView {
      * controller.
      */
     public static void addStudent() {
+
         try {
             final int rollNo = StudentView.getRollNo();
             final String name = StudentView.getName();
@@ -142,10 +142,10 @@ public class StudentView {
             final boolean isInserted = STUDENTCONTROLLER.addStudent(rollNo, student);
 
             if (isInserted) {
-                System.out.println("Inserted SuccessFully");
+                logger.info("Inserted SuccessFully");
             }
         } catch (CustomException e) {
-            System.out.println(e);
+            logger.error(e);
         }
     }
 
@@ -153,8 +153,13 @@ public class StudentView {
      * Display all Students and sends a request to the controller.
      */
     public static void showAllStudents() {
-        Map<Integer, Student> ShowallStudents = STUDENTCONTROLLER.showAllStudents();
-        System.out.println(ShowallStudents);
+
+        try {
+            System.out.println(STUDENTCONTROLLER.showAllStudents());
+        } catch (CustomException e) {
+            logger.error(e);
+        }
+
     }
 
     /**
@@ -162,14 +167,15 @@ public class StudentView {
      * controller.
      */
     public static void removeStudent() {
+
         try {
             final boolean isRemoved = STUDENTCONTROLLER.removeStudent(StudentView.getRollNo());
 
             if (isRemoved) {
-                System.out.println("Deleted SuccessFully");
+                logger.info("Deleted SuccessFully");
             }
         } catch (CustomException e) {
-            System.out.println(e);
+            logger.error(e);
         }
     }
 
@@ -178,10 +184,11 @@ public class StudentView {
      * controller.
      */
     public static void selectStudent() {
+
         try {
-            StudentView.showValue(STUDENTCONTROLLER.SearchStudentDetails(StudentView.getRollNo()));
+            logger.info(STUDENTCONTROLLER.SearchStudentDetails(StudentView.getRollNo()));
         } catch (RecordNotfoundException e) {
-            System.out.println(e);
+            logger.error(e);
         }
     }
 
@@ -189,6 +196,7 @@ public class StudentView {
      * UpdateStudents detail.
      */
     public static void updateStudent() {
+
         try {
             Student student = new Student();
 
@@ -222,10 +230,10 @@ public class StudentView {
             final boolean isUpdated = STUDENTCONTROLLER.updateStudentDetails(student.getRollNo(), student);
 
             if (isUpdated) {
-                System.out.println("Updated SuccessFully");
+                logger.info("Updated SuccessFully");
             }
         } catch (CustomException e) {
-            System.out.println(e);
+            logger.error(e);
         }
     }
 }

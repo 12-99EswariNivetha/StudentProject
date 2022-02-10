@@ -122,12 +122,17 @@ public class StudentDaoImpl implements StudentDao {
             }
 
             if (student.getDate() != null) {
+                
+                if (hasNextField) {
+                    updateStudent = queryBuilder.append(",").toString();
+                }
                 updateStudent = queryBuilder.append(" dob = '").append(student.getDate()).append("'").toString();
                 hasNextField = true;
             }
+           
             updateStudent = queryBuilder.append(" where rollno = ").append(student.getRollNo()).toString();
 
-            Statement statement = connection.createStatement();
+            final Statement statement = connection.createStatement();
             return statement.executeUpdate(updateStudent) > 0;
         } catch (SQLException e) {
             throw new AccessFailedException("Database Access Failed");
