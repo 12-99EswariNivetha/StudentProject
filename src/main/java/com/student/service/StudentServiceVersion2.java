@@ -14,12 +14,7 @@ public class StudentServiceVersion2 {
      * Adds the student details to database.
      */
     public boolean addStudent(final Student student) {
-
-        if (STUDENTDAO.getAllStudentsfromdb().containsKey(student.getRollNo())) {
-            throw new IdAlreadyFoundException(" Id already exist");
-        } else {
-            return STUDENTDAO.addStudent(student);
-        }
+        return STUDENTDAO.addStudent(student);
     }
 
     /**
@@ -68,5 +63,26 @@ public class StudentServiceVersion2 {
         } else {
             throw new RecordNotfoundException("Record Not Found");
         }
+    }
+
+    public boolean CheckRollNo(final int rollNo) {
+        final boolean isRollNoPresent = STUDENTDAO.getAllStudentsfromdb().containsKey(rollNo);
+
+        if (!isRollNoPresent) {
+            return true;
+        }
+        throw new IdAlreadyFoundException("The Given RollNo Already Exist in Table.\n Re-Enter RollNo ");
+
+    }
+    
+
+    public boolean CheckRollNoUpdate(final int rollNo) {
+        final boolean isRollNoPresent = STUDENTDAO.getAllStudentsfromdb().containsKey(rollNo);
+
+        if (isRollNoPresent) {
+            return true;
+        }
+        throw new RecordNotfoundException("Record Not Found");
+
     }
 }

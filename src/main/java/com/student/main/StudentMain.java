@@ -5,8 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
+
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import com.student.service.Validation;
 import com.student.view.StudentView;
 
 /**
@@ -19,7 +20,6 @@ import com.student.view.StudentView;
  */
 public class StudentMain {
 
-    private static final Properties PROPERTIES = new Properties();
     public static final Scanner SCANNER = new Scanner(System.in);
 
     /**
@@ -29,12 +29,18 @@ public class StudentMain {
      * @throws FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        PROPERTIES.load(new FileInputStream("log.properties"));
-        PropertyConfigurator.configure(PROPERTIES);
+        final Properties properties = new Properties();
+        properties.load(new FileInputStream("log.properties"));
+        PropertyConfigurator.configure(properties);
+        StudentMain.selectChoice();
+    }
+        
+        public static void selectChoice(){
 
         do {
-            System.out.println("1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.SEARCH\nEnter your choice:");
-            final int choice = Validation.validateChoice(SCANNER.next());
+            final Logger logger = Logger.getLogger(StudentView.class);
+            logger.info("STUDENT MANAGEMENT \n1.CREATE \n2.SHOW\n3.DELETE\n4.UPDATE\n5.SEARCH\n6.Exit\nEnter your choice:");
+            final int choice = Integer.parseInt(StudentView.getChoice());
 
             switch (choice) {
             case 1:
@@ -52,7 +58,7 @@ public class StudentMain {
             case 5:
                 StudentView.selectStudent();
                 break;
-            default:
+            case 6:
                 SCANNER.close();
                 System.exit(0);
             }

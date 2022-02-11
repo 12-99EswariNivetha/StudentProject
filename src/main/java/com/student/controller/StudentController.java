@@ -3,7 +3,6 @@ package com.student.controller;
 import java.util.Map;
 
 import com.student.model.Student;
-import com.student.service.StudentServiceImplementation;
 import com.student.service.StudentServiceVersion2;
 
 /**
@@ -31,6 +30,13 @@ public class StudentController {
 
     public Student SearchStudentDetails(final int rollNo) {
         return STUDENT_SERVICE_VERSION2.selectStudent(rollNo);
-
+    }
+    
+    public boolean checkRollno(final int rollNo) {
+        return STUDENT_SERVICE_VERSION2.CheckRollNo(rollNo);
+    }
+    
+    public boolean checkRollnoUpdate(final int rollNo) {
+        return STUDENT_SERVICE_VERSION2.CheckRollNoUpdate(rollNo);
     }
 }

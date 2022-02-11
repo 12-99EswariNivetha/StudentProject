@@ -19,7 +19,7 @@ public class StudentDaoImpl implements StudentDao {
      * AddStudent details to database.
      */
     public boolean addStudent(final Student student) {
-        final String InsertStudent = "INSERT INTO student(rollno, name, standard, phoneno, emailid, dob, isdeleted) VALUES (?,?,?,?,?,?,?)";
+        final String InsertStudent = "INSERT INTO student(rollno, name, standard, phoneno, emailid, joiningdate, isdeleted) VALUES (?,?,?,?,?,?,?)";
 
         try (Connection connection = DBCONNECTION.getConnection();
                 PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
@@ -69,7 +69,7 @@ public class StudentDaoImpl implements StudentDao {
             while (resultset.next()) {
                 Student student = new Student(resultset.getInt("rollno"), resultset.getString("name"),
                         resultset.getString("standard"), resultset.getLong("phoneno"), resultset.getString("emailid"),
-                        resultset.getDate("dob"));
+                        resultset.getDate("joiningdate"));
 
                 Studentlist.put(student.getRollNo(), student);
             }
@@ -96,6 +96,7 @@ public class StudentDaoImpl implements StudentDao {
             }
 
             if (student.getStandard() != null) {
+                
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
                 }
@@ -126,8 +127,7 @@ public class StudentDaoImpl implements StudentDao {
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
                 }
-                updateStudent = queryBuilder.append(" dob = '").append(student.getDate()).append("'").toString();
-                hasNextField = true;
+                updateStudent = queryBuilder.append(" joiningdate = '").append(student.getDate()).append("'").toString();
             }
            
             updateStudent = queryBuilder.append(" where rollno = ").append(student.getRollNo()).toString();
@@ -157,9 +157,9 @@ public class StudentDaoImpl implements StudentDao {
                     String standard = resultset.getString(3);
                     String emailid = resultset.getString(4);
                     long phoneno = resultset.getLong(5);
-                    Date dob = resultset.getDate(6);
+                    Date joiningdate = resultset.getDate(6);
 
-                    student = new Student(rollno, name, standard, phoneno, emailid, dob);
+                    student = new Student(rollno, name, standard, phoneno, emailid, joiningdate);
                 }
             }
         } catch (SQLException e) {

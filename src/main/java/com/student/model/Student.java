@@ -83,8 +83,8 @@ public class Student {
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(rollNo).append(" ").append(name).append(" ").append(standard).append(" ").append(phonenumber)
-                .append(" ").append(emailId).append(" ").append(date);
+        builder.append("RollNo: ").append(rollNo).append("\n").append("Name: ").append(name).append("\n").append("Standard: ").append(standard).append("\n").append("PhoneNumber: ").append(phonenumber)
+                .append("\n").append("EmailId: ").append(emailId).append("\n").append("Date: ").append(date).append("\n");
         return builder.toString();
     }
 }

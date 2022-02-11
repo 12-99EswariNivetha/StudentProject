@@ -1,13 +1,14 @@
 package com.student.view;
 
 import java.sql.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import org.apache.log4j.Logger;
 import com.student.exception.CustomException;
-import com.student.exception.CustomException.RecordNotfoundException;
+import com.student.main.StudentMain;
 import com.student.controller.StudentController;
 import com.student.model.Student;
-import com.student.service.Validation;
 
 /**
  * Student, View! The StudentView program implements an application that simply
@@ -18,95 +19,118 @@ public class StudentView {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Validation VALIDATE = new Validation();
     private static final StudentController STUDENTCONTROLLER = new StudentController();
-    private static final Logger logger = Logger.getLogger(StudentView.class);
+    private static final Logger LOGGER = Logger.getLogger(StudentView.class);
 
     /**
-     * Get rollno from user.
+     * Get rollno from the user.
      */
     public static int getRollNo() {
-        System.out.println("Enter the RollNo(Give 3 Digit No):");
-        final String rollNo = SCANNER.nextLine();
+        LOGGER.info("Enter the RollNo(Give 3 Digit No): \n Press @ To Exit to Main Menu");
+        final String rollNo = SCANNER.nextLine().trim();
+
+        if (("@").equals(rollNo)) {
+            StudentMain.selectChoice();
+        }
         final boolean isValid = VALIDATE.rollNoValidation(rollNo);
-        
+
         if (isValid) {
             return Integer.parseInt(rollNo);
         } else {
-            logger.error("Not Valid \n Re-enter a valid RollNo :");
+            LOGGER.error("Not Valid Please Enter a valid RollNo \n Press @ To Exit to Main Menu");
             return StudentView.getRollNo();
         }
     }
 
     /**
-     * Get name from user.
+     * Get the name from the user.
      */
     public static String getName() {
-        System.out.println("Enter the Name:");
-        final String name = SCANNER.nextLine();
+        LOGGER.info("Enter the Name:");
+        final String name = SCANNER.nextLine().trim();
+
+        if (("@").equals(name)) {
+            StudentMain.selectChoice();
+        }
         final boolean isValid = VALIDATE.nameValidation(name);
-        
+
         if (isValid) {
             return name;
         } else {
-            logger.error("Not Valid \n Re-enter a valid Name :");
+            LOGGER.error("Not Valid Please Enter a valid Name \n Press @ To Exit to Main Menu");
             return StudentView.getName();
         }
     }
 
     /**
-     * Get standard from user.
+     * Get standard from the user.
      */
     public static String getStandard() {
-        System.out.println("Enter the Standard:");
-        final String stand = SCANNER.nextLine();
+        LOGGER.info("Enter the Standard:");
+        final String stand = SCANNER.nextLine().trim();
+
+        if (("@").equals(stand)) {
+            StudentMain.selectChoice();
+        }
         final boolean isValid = VALIDATE.standardValidation(stand);
-        
+
         if (isValid) {
             return stand;
         } else {
-            logger.error("Not Valid \n Re-enter a valid Standard :");
+            LOGGER.error("Not Valid Please Enter a valid Standard  \n Press @ To Exit to Main Menu");
             return StudentView.getStandard();
         }
     }
 
     /**
-     * Get phoneno from user.
+     * Get phone no from the user.
      */
     public static long getPhoneNo() {
-        System.out.println("Enter the PhoneNumber:");
-        final String phoneNo = SCANNER.nextLine();
+        LOGGER.info("Enter the PhoneNumber:");
+        final String phoneNo = SCANNER.nextLine().trim();
+
+        if (("@").equals(phoneNo)) {
+            StudentMain.selectChoice();
+        }
         final boolean isValid = VALIDATE.phoneNoValidation(phoneNo);
-        
+
         if (isValid) {
             return Long.parseLong(phoneNo);
         } else {
-            logger.error("Not Valid \n Re-enter a valid PhoneNo :");
+            LOGGER.error("Not Valid Please Enter a valid PhoneNo \n Press @ To Exit to Main Menu");
             return StudentView.getPhoneNo();
         }
     }
 
     /**
-     * Get emailid from user.
+     * Get emailid from the user.
      */
     public static String getEmailId() {
-        System.out.println("Enter the EmailId:");
-        final String emailId = SCANNER.nextLine();
+        LOGGER.info("Enter the EmailId:");
+        final String emailId = SCANNER.nextLine().trim();
+
+        if (("@").equals(emailId)) {
+            StudentMain.selectChoice();
+        }
         final boolean isValid = VALIDATE.emailIdValidation(emailId);
-        
+
         if (isValid) {
             return emailId;
         } else {
-            logger.error("Not Valid \n Re-enter a valid MailId :");
+            LOGGER.error("Not Valid Please Enter a valid MailId  \n Press @ To Exit to Main Menu");
             return StudentView.getEmailId();
         }
     }
 
     /**
-     * Get date from user.
+     * Get a date from the user.
      */
     public static Date getDate() {
+        LOGGER.info("Enter Date of Joining(yyyy-mm-dd):");
+        final String date = SCANNER.nextLine().trim();
 
-        System.out.println("Enter DoB(yyyy-mm-dd):");
-        final String date = SCANNER.nextLine();
+        if (("@").equals(date)) {
+            StudentMain.selectChoice();
+        }
         boolean isValid = false;
 
         try {
@@ -118,7 +142,7 @@ public class StudentView {
         if (isValid) {
             return Date.valueOf(date);
         } else {
-            logger.error("Not Valid \n Re-enter a valid Date :");
+            LOGGER.error("Not Valid Please Enter a valid Date \n Press @ To Exit to Main Menu");
             return StudentView.getDate();
         }
     }
@@ -128,36 +152,45 @@ public class StudentView {
      * controller.
      */
     public static void addStudent() {
+        final int rollNo = StudentView.getRollNo();
 
         try {
-            final int rollNo = StudentView.getRollNo();
-            final String name = StudentView.getName();
-            final String standard = StudentView.getStandard();
-            final long phoneNo = StudentView.getPhoneNo();
-            final String emailId = StudentView.getEmailId();
-            final Date Date = StudentView.getDate();
+            STUDENTCONTROLLER.checkRollno(rollNo);
+        } catch (CustomException e) {
+            LOGGER.error(e);
+            StudentView.addStudent();
+            StudentMain.selectChoice();
+        }
+        final String name = StudentView.getName();
+        final String standard = StudentView.getStandard();
+        final long phoneNo = StudentView.getPhoneNo();
+        final String emailId = StudentView.getEmailId();
+        final Date Date = StudentView.getDate();
 
-            final Student student = new Student(rollNo, name, standard, phoneNo, emailId, Date);
+        final Student student = new Student(rollNo, name, standard, phoneNo, emailId, Date);
 
+        try {
             final boolean isInserted = STUDENTCONTROLLER.addStudent(rollNo, student);
 
             if (isInserted) {
-                logger.info("Inserted SuccessFully");
+                LOGGER.info("Inserted SuccessFully");
             }
         } catch (CustomException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
     }
 
     /**
-     * Display all Students and sends a request to the controller.
+     * Display all Students and send a request to the controller.
      */
     public static void showAllStudents() {
 
         try {
-            System.out.println(STUDENTCONTROLLER.showAllStudents());
+            for (Entry<Integer, Student> entry : STUDENTCONTROLLER.showAllStudents().entrySet()) {
+                System.out.println(entry.getValue());
+            }
         } catch (CustomException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
 
     }
@@ -172,10 +205,10 @@ public class StudentView {
             final boolean isRemoved = STUDENTCONTROLLER.removeStudent(StudentView.getRollNo());
 
             if (isRemoved) {
-                logger.info("Deleted SuccessFully");
+                LOGGER.info("Deleted SuccessFully");
             }
         } catch (CustomException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
     }
 
@@ -186,9 +219,9 @@ public class StudentView {
     public static void selectStudent() {
 
         try {
-            logger.info(STUDENTCONTROLLER.SearchStudentDetails(StudentView.getRollNo()));
-        } catch (RecordNotfoundException e) {
-            logger.error(e);
+            LOGGER.info(STUDENTCONTROLLER.SearchStudentDetails(StudentView.getRollNo()));
+        } catch (CustomException e) {
+            LOGGER.error(e);
         }
     }
 
@@ -196,44 +229,153 @@ public class StudentView {
      * UpdateStudents detail.
      */
     public static void updateStudent() {
+        String name = null;
+        String standard = null;
+        long phoneNo = 0;
+        String emailid = null;
+        Date date = null;
+        final String choiceYes = "yes";
+        final String choiceNo = "no";
+        final int rollNo = StudentView.getRollNo();
 
         try {
-            Student student = new Student();
+            STUDENTCONTROLLER.checkRollnoUpdate(rollNo);
+        } catch (CustomException e) {
+            LOGGER.error(e);
+            StudentView.updateStudent();
+            StudentMain.selectChoice();
+        }
+        LOGGER.info("Do you want to change your name? yes or no \n Press @ To Exit to Main Menu ");
 
-            student.setRollNo(StudentView.getRollNo());
-            System.out.println("Do you want to change your name? yes or no ");
+        while (true) {
+            String option = SCANNER.nextLine().trim();
 
-            if (("yes").equals(SCANNER.nextLine())) {
-                student.setName(StudentView.getName());
+            if (("@").equals(option)) {
+                StudentMain.selectChoice();
             }
-            System.out.println("Do you want to change your standard? yes or no");
 
-            if (("yes").equals(SCANNER.nextLine())) {
-                student.setStandard(StudentView.getStandard());
+            if (choiceYes.equalsIgnoreCase(option)) {
+                name = StudentView.getName();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option Enter yes or no");
+                continue;
             }
-            System.out.println("Do you want to change your phoneNo? yes or no");
+        }
+        LOGGER.info("Do you want to change your standard? yes or no \n Press @ To Exit to Main Menu");
 
-            if (("yes").equals(SCANNER.nextLine())) {
-                student.setPhonenumber(StudentView.getPhoneNo());
-            }
-            System.out.println("Do you want to change your emailid? yes or no");
+        while (true) {
+            String option = SCANNER.nextLine().trim();
 
-            if (("yes").equals(SCANNER.nextLine())) {
-                student.setEmailId(StudentView.getEmailId());
+            if (("@").equals(option)) {
+                StudentMain.selectChoice();
             }
-            System.out.println("Do you want to change your dob? yes or no");
 
-            if (("yes").equals(SCANNER.nextLine())) {
-                student.setDate(StudentView.getDate());
+            if (choiceYes.equalsIgnoreCase(option)) {
+                standard = StudentView.getStandard();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option Enter yes or no");
+                continue;
             }
+        }
+        LOGGER.info("Do you want to change your phone? yes or no \n Press @ To Exit to Main Menu");
+
+        while (true) {
+            String option = SCANNER.nextLine().trim();
+
+            if (("@").equals(option)) {
+                StudentMain.selectChoice();
+            }
+
+            if ((choiceYes.equalsIgnoreCase(option))) {
+                phoneNo = StudentView.getPhoneNo();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option Enter yes or no");
+                continue;
+            }
+        }
+        LOGGER.info("Do you want to change your email? yes or no \n Press @ To Exit to Main Menu");
+
+        while (true) {
+            String option = SCANNER.nextLine().trim();
+
+            if (("@").equals(option)) {
+                StudentMain.selectChoice();
+            }
+
+            if (choiceYes.equalsIgnoreCase(option)) {
+                emailid = StudentView.getEmailId();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option Enter yes or no");
+                continue;
+            }
+        }
+        LOGGER.info("Do you want to change your dob? yes or no \n Press @ To Exit to Main Menu");
+
+        while (true) {
+            String option = SCANNER.nextLine().trim();
+
+            if (("@").equals(option)) {
+                StudentMain.selectChoice();
+            }
+
+            if (choiceYes.equalsIgnoreCase(option)) {
+                date = StudentView.getDate();
+                break;
+            } else if (choiceNo.equalsIgnoreCase(option)) {
+                break;
+            } else {
+                LOGGER.info("Invalid option Enter yes or no");
+                continue;
+            }
+        }
+        final Student student = new Student();
+
+        student.setRollNo(rollNo);
+        student.setName(name);
+        student.setStandard(standard);
+        student.setEmailId(emailid);
+        student.setPhonenumber(phoneNo);
+        student.setEmailId(emailid);
+        student.setDate(date);
+
+        try {
 
             final boolean isUpdated = STUDENTCONTROLLER.updateStudentDetails(student.getRollNo(), student);
 
             if (isUpdated) {
-                logger.info("Updated SuccessFully");
+                LOGGER.info("Updated SuccessFully");
             }
+
         } catch (CustomException e) {
-            logger.error(e);
+            LOGGER.error(e);
         }
+    }
+
+    /**
+     * Getting Choice from user.
+     */
+    public static String getChoice() {
+        final String choice = StudentMain.SCANNER.nextLine().trim();
+        final boolean isChoiceValid = VALIDATE.validateChoice(choice);
+
+        if (isChoiceValid) {
+            return choice;
+        } else {
+            LOGGER.info("Please Enter Valid Choice use only [1-6]");
+            return StudentView.getChoice();
+        }
+
     }
 }
