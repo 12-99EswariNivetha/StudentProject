@@ -5,21 +5,28 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import com.student.exception.CustomException.AccessFailedException;
+import com.student.exception.CustomException.SqlQueryException;
 import com.student.model.Student;
 
+/**
+ * Database Implementation.
+ * 
+ * @author EswariNivethaVU
+ *
+ */
 public class StudentDaoImpl implements StudentDao {
-    
+
     private static final DataBaseConnection DBCONNECTION = new DataBaseConnection();
 
     /**
      * AddStudent details to database.
+     * 
+     * @param student
      */
     public boolean addStudent(final Student student) {
-        final String InsertStudent = "INSERT INTO student(rollno, name, standard, phoneno, emailid, joiningdate, isdeleted) VALUES (?,?,?,?,?,?,?)";
+        final String InsertStudent = "INSERT INTO student(rollno, name, standard, phoneno, emailid, joiningdate, isdeleted) VALUES (?, ?, ?, ?, ?, ? ,?)";
 
         try (Connection connection = DBCONNECTION.getConnection();
                 PreparedStatement statement = connection.prepareStatement(InsertStudent);) {
@@ -33,12 +40,14 @@ public class StudentDaoImpl implements StudentDao {
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new AccessFailedException("Database Access Failed");
+            throw new SqlQueryException("Invalid Query So Database Access Failed");
         }
     }
 
     /**
      * Remove Student details from database.
+     * 
+     * @param rollno
      */
     public boolean removeStudent(final int rollno) {
         final String removeStudent = "UPDATE student SET isdeleted = ? where rollno = ? and isdeleted = ? ";
@@ -51,14 +60,14 @@ public class StudentDaoImpl implements StudentDao {
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new AccessFailedException("Database Access Failed");
+            throw new SqlQueryException("Invalid Query So Database Access Failed");
         }
     }
 
     /**
      * Retrive all student details from database.
      */
-    public Map<Integer, Student> getAllStudentsfromdb() {
+    public Map<Integer, Student> getAllStudents() {
         final String getstudent = "Select * From student where isdeleted = false ";
         final Map<Integer, Student> Studentlist = new HashMap<Integer, Student>();
 
@@ -74,82 +83,111 @@ public class StudentDaoImpl implements StudentDao {
                 Studentlist.put(student.getRollNo(), student);
             }
         } catch (SQLException e) {
-            throw new AccessFailedException("Database Access Failed");
+            throw new SqlQueryException("Invalid Query So Database Access Failed");
         }
         return Studentlist;
     }
 
     /**
      * Update student details in database.
+     * 
+     * @param student
      */
     public boolean updateStudents(final Student student) {
 
         try (Connection connection = DBCONNECTION.getConnection();) {
             final StringBuilder queryBuilder = new StringBuilder();
             String updateStudent = queryBuilder.append("update student set").toString();
-
             boolean hasNextField = false;
+            int name = 1, standard = 1, emailId = 1, phoneNo = 1, date = 1, rollNo = 1, count = 0;
 
             if (student.getName() != null) {
-                updateStudent = queryBuilder.append(" name = '").append(student.getName()).append("'").toString();
+                updateStudent = queryBuilder.append(" name = ?").toString();
                 hasNextField = true;
+                count += 1;
             }
 
             if (student.getStandard() != null) {
-                
+
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
+                    standard = count + 1;
                 }
-                updateStudent = queryBuilder.append(" standard = ").append(student.getStandard()).append("'").toString();
+                updateStudent = queryBuilder.append(" standard = ?").toString();
                 hasNextField = true;
+                count += 1;
             }
 
             if (student.getEmailId() != null) {
 
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
+                    emailId = count + 1;
                 }
-                updateStudent = queryBuilder.append(" emailid = '").append(student.getEmailId()).append("'").toString();
+                updateStudent = queryBuilder.append(" emailid = ?").toString();
                 hasNextField = true;
+                count += 1;
             }
 
             if (student.getPhonenumber() != 0) {
 
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
+                    phoneNo = count + 1;
                 }
-                updateStudent = queryBuilder.append(" phoneno = ").append(student.getPhonenumber()).toString();
+                updateStudent = queryBuilder.append(" phoneno = ?").toString();
                 hasNextField = true;
+                count += 1;
             }
 
             if (student.getDate() != null) {
-                
+
                 if (hasNextField) {
                     updateStudent = queryBuilder.append(",").toString();
+                    date = count + 1;
                 }
-                updateStudent = queryBuilder.append(" joiningdate = '").append(student.getDate()).append("'").toString();
+                updateStudent = queryBuilder.append(" joiningdate = ?").toString();
+                count += 1;
             }
-           
-            updateStudent = queryBuilder.append(" where rollno = ").append(student.getRollNo()).toString();
+            updateStudent = queryBuilder.append(" where rollno = ?").toString();
+            rollNo = count + 1;
+            final PreparedStatement statement = connection.prepareStatement(updateStudent);
 
-            final Statement statement = connection.createStatement();
-            return statement.executeUpdate(updateStudent) > 0;
+            if (student.getName() != null) {
+                statement.setString(name, student.getName());
+            }
+            if (student.getStandard() != null) {
+                statement.setString(standard, student.getStandard());
+            }
+            if (student.getPhonenumber() != 0) {
+                statement.setLong(phoneNo, student.getPhonenumber());
+            }
+            if (student.getEmailId() != null) {
+                statement.setString(emailId, student.getEmailId());
+            }
+            if (student.getDate() != null) {
+                statement.setDate(date, student.getDate());
+            }
+            statement.setInt(rollNo, student.getRollNo());
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new AccessFailedException("Database Access Failed");
+            throw new SqlQueryException("Invalid Query So Database Access Failed ");
         }
     }
 
     /**
      * Select student detail from database.
+     * 
+     * @param rollno
      */
     public Student selectStudent(final int rollno) {
         Student student = null;
-        final String getstudent = "Select rollno, name, standard, emailid, phoneno, dob From student where rollno=?";
+        final String getstudent = "Select rollno, name, standard, emailid, phoneno, joiningdate From student where rollno = ?";
 
         try (final Connection connection = DBCONNECTION.getConnection();
                 final PreparedStatement statement = connection.prepareStatement(getstudent);) {
             statement.setInt(1, rollno);
-            
+
             try (ResultSet resultset = statement.executeQuery();) {
 
                 while (resultset.next()) {
@@ -163,7 +201,7 @@ public class StudentDaoImpl implements StudentDao {
                 }
             }
         } catch (SQLException e) {
-            throw new AccessFailedException("Database Access Failed");
+            throw new SqlQueryException(" Invalid Query So Database Access Failed");
         }
         return student;
     }

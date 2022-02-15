@@ -1,13 +1,13 @@
 package com.student.service;
 
 import java.util.Map;
-
 import com.student.model.Student;
 
 /**
- * StudentsServiceImplementation implements StudentsService
+ * Interface to provide StudentService.
+ * 
+ * @author EswariNivethaVU
  */
-
 public interface StudentService {
 
     boolean addStudent(final Student student);

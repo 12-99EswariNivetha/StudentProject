@@ -3,7 +3,7 @@ package com.student.model;
 import java.sql.Date;
 
 /**
- * It is a model class to hold Student information
+ * Model class to hold Student information
  *
  * @author EswariNivethaVU
  */

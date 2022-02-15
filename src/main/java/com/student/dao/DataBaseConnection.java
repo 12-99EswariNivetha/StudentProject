@@ -4,8 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * DataBase Connection.
+ * 
+ * @author EswariNivethaVU
+ */
 public class DataBaseConnection {
-    
+
     /**
      * Connects the Database.
      */

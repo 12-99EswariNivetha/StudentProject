@@ -20,9 +20,9 @@ public class CustomException extends RuntimeException {
         }
     }
 
-    public static class AccessFailedException extends CustomException {
+    public static class SqlQueryException extends CustomException {
 
-        public AccessFailedException(String msg) {
+        public SqlQueryException(String msg) {
             super(msg);
         }
     }
