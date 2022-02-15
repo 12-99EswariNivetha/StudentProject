@@ -6,12 +6,20 @@ import com.student.exception.CustomException.RecordNotfoundException;
 import com.student.dao.StudentDaoImpl;
 import com.student.model.Student;
 
+/**
+ * Student Service Version2.
+ * 
+ * @author EswariNivethaVU
+ *
+ */
 public class StudentServiceVersion2 {
 
     private static final StudentDaoImpl STUDENTDAO = new StudentDaoImpl();
 
     /**
      * Adds the student details to database.
+     * 
+     * @param student
      */
     public boolean addStudent(final Student student) {
         return STUDENTDAO.addStudent(student);
@@ -19,11 +27,12 @@ public class StudentServiceVersion2 {
 
     /**
      * Removes the student details from the database.
+     * 
+     * @param rollNo
      */
     public boolean removeStudent(final int rollNo) {
-        final boolean isRemoved = STUDENTDAO.removeStudent(rollNo);
 
-        if (isRemoved) {
+        if (STUDENTDAO.removeStudent(rollNo)) {
             return true;
         }
         throw new RecordNotfoundException(" Record Not Found ");
@@ -32,8 +41,8 @@ public class StudentServiceVersion2 {
     /**
      * Get all students details from database.
      */
-    public Map<Integer, Student> ShowAllStudents() {
-        final Map<Integer, Student> students = STUDENTDAO.getAllStudentsfromdb();
+    public Map<Integer, Student> getAllStudents() {
+        final Map<Integer, Student> students = STUDENTDAO.getAllStudents();
 
         if (!students.isEmpty()) {
             return students;
@@ -43,11 +52,12 @@ public class StudentServiceVersion2 {
 
     /**
      * Update student details to the database.
+     * 
+     * @param student
      */
     public boolean updateStudentDetails(final Student student) {
-        final boolean isUpdated = STUDENTDAO.updateStudents(student);
 
-        if (isUpdated) {
+        if (STUDENTDAO.updateStudents(student)) {
             return true;
         }
         throw new RecordNotfoundException(" Record Not Found ");
@@ -55,34 +65,41 @@ public class StudentServiceVersion2 {
 
     /**
      * Get values from the database.
+     * 
+     * @param rollNo
      */
-    public Student selectStudent(final int rollno) {
+    public Student selectStudent(final int rollNo) {
 
-        if (STUDENTDAO.getAllStudentsfromdb().containsKey(rollno)) {
-            return STUDENTDAO.selectStudent(rollno);
+        if (STUDENTDAO.getAllStudents().containsKey(rollNo)) {
+            return STUDENTDAO.selectStudent(rollNo);
         } else {
             throw new RecordNotfoundException("Record Not Found");
         }
     }
 
-    public boolean CheckRollNo(final int rollNo) {
-        final boolean isRollNoPresent = STUDENTDAO.getAllStudentsfromdb().containsKey(rollNo);
+    /**
+     * Checks whether rollno already exist or not.
+     * 
+     * @param rollNo
+     */
+    public boolean checkRollNo(final int rollNo) {
 
-        if (!isRollNoPresent) {
+        if (!STUDENTDAO.getAllStudents().containsKey(rollNo)) {
             return true;
         }
         throw new IdAlreadyFoundException("The Given RollNo Already Exist in Table.\n Re-Enter RollNo ");
-
     }
-    
 
-    public boolean CheckRollNoUpdate(final int rollNo) {
-        final boolean isRollNoPresent = STUDENTDAO.getAllStudentsfromdb().containsKey(rollNo);
+    /**
+     * Checks whether rollno is present or not.
+     * 
+     * @param rollNo
+     */
+    public boolean checkRollNoForUpdate(final int rollNo) {
 
-        if (isRollNoPresent) {
+        if (STUDENTDAO.getAllStudents().containsKey(rollNo)) {
             return true;
         }
         throw new RecordNotfoundException("Record Not Found");
-
     }
 }

@@ -1,108 +1,78 @@
 package com.student.view;
 
 import java.time.LocalDate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import com.student.exception.CustomException.InValidDateException;
 
 public class Validation {
 
     /**
      * Validates the PhoneNumber.
+     * 
+     * @param phoneNo
      */
-    public boolean phoneNoValidation(final String phoneNo) {
-        Pattern phonenoPattern = Pattern.compile("[6-9]{1}[0-9]{9}");
-        Matcher phonenomatcher = phonenoPattern.matcher(phoneNo);
-
-        if (phonenomatcher.find() && phonenomatcher.group().equals(phoneNo)) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean validatePhoneNo(final String phoneNumber) {
+        return phoneNumber.matches("[6-9]{1}[0-9]{9}") ? true : false;
     }
 
     /**
      * Validates the Name.
+     * 
+     * @param name
      */
-    public boolean nameValidation(final String name) {
-        Pattern namepattern = Pattern.compile("[a-zA-Z\\s]*$");
-        Matcher namematcher = namepattern.matcher(name);
-
-        if (namematcher.find() && namematcher.group().equals(name)) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean validateName(final String name) {
+        return name.matches("[a-zA-Z\\s]*$") ? true : false;
     }
 
     /**
      * Validates the RollNo.
+     * 
+     * @param rollNo
      */
-    public boolean rollNoValidation(final String rollNo) {
-        Pattern rollNopattern = Pattern.compile("[0-9]{3}");
-        Matcher rollNomatcher = rollNopattern.matcher(rollNo);
-
-        if (rollNomatcher.find() && rollNomatcher.group().equals(rollNo)) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean validateRollNo(final String rollNo) {
+        return rollNo.matches("[0-9]{3}") ? true : false;
     }
 
     /**
      * Validates the Standard.
+     * 
+     * @param standard
      */
-    public boolean standardValidation(final String stand) {
-
-        if ((stand.matches("^([1-9]|1[012])$")) || ("PREKG".equalsIgnoreCase(stand)) || ("LKG".equalsIgnoreCase(stand))
-                || ("UKG".equalsIgnoreCase(stand))) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean validateStandard(final String standard) {
+        return (standard.matches("([1-9]|1[012])|((?i)PREKG|LKG|UKG)")) ? true : false;
     }
 
     /**
      * Validates the EmailId.
+     * "
+     * @param emailId
      */
-    public boolean emailIdValidation(final String emailId) {
-        Pattern emailidpattern = Pattern.compile("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+.[a-z]{2,3}+$");
-        Matcher emailidmatcher = emailidpattern.matcher(emailId);
-
-        if (emailidmatcher.find() && emailidmatcher.group().equals(emailId)) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean validateEmailId(final String emailId) {
+        return emailId.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+.[a-z]{2,3}+$") ? true : false;
     }
 
     /**
      * Validates the Date.
+     * 
+     * @param date
      */
-    public boolean dateValidation(final String date) {
+    public boolean validateDate(final String date) {
 
         try {
             LocalDate localdate = LocalDate.parse(date);
             LocalDate currentLocalDate = LocalDate.now();
 
-            if (currentLocalDate.plusDays(1).isAfter(localdate)) {
-                return true;
-            }
+            return (currentLocalDate.plusDays(1).isAfter(localdate))? true : false; 
         } catch (Exception e) {
             throw new InValidDateException("Invalid Date");
         }
-        return false;
     }
 
     /**
      * Validates the Choice.
+     * 
+     * @param choice
      */
     public boolean validateChoice(final String choice) {
-
-        if (!choice.matches("[1-6]")) {
-            return false;
-        } else {
-            return true;
-        }
+        return choice.matches("[1-6]") ? true : false;
     }
 }
